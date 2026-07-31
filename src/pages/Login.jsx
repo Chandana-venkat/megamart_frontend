@@ -198,12 +198,9 @@ function Login(){
 
   });
 
+const [errors,setErrors]=useState({});
 
-  const [errors,setErrors]=useState({});
-
-
-
-  const handleChange=(e)=>{
+ const handleChange=(e)=>{
 
     const {name,value}=e.target;
 
@@ -236,9 +233,7 @@ function Login(){
 
     }
 
-
-
-    if(name==="password"){
+  if(name==="password"){
 
       if(value===""){
 
@@ -264,11 +259,7 @@ function Login(){
 
 
   };
-
-
-
-
- const handleLogin = async (e) => {
+const handleLogin = async (e) => {
 
   e.preventDefault();
 
@@ -303,11 +294,15 @@ const users = response.data;
 
     if(users.length > 0){
 
-        localStorage.setItem(
-            "user",
-            JSON.stringify(users[0])
-        );
+        // localStorage.setItem(
+        //     "user",
+        //     JSON.stringify(users[0])
+        // );
 
+        localStorage.setItem(
+      "currentUser",
+         JSON.stringify(users[0])
+     );
         alert("Login Successful 🎉");
 
         navigate("/");
@@ -336,11 +331,7 @@ catch(error){
 
     <>
 
-
-    
-
-
-    <div className="login-container">
+ <div className="login-container">
 
 
       <h1>Login</h1>

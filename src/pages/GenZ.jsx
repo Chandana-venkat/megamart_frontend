@@ -199,7 +199,7 @@ function Genz() {
   useEffect(() => {
 
 
-    fetch("http://localhost:3001/products?category=GenZ&")
+    fetch("http://localhost:3000/products?category=GenZ&")
 
       .then((res) => res.json())
 

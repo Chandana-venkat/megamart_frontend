@@ -1,11 +1,7 @@
 import { Routes, Route } from "react-router-dom";
 import { useState } from "react";
-
-
 // Navbar
 import Nav from "./components/Nav";
-
-
 // User Pages
 import Home from "./pages/Home";
 import Products from "./pages/Products";
@@ -31,7 +27,6 @@ import Footer from "./components/Footer";
 // Protected Route
 import UserProtectedRoute from "./components/UserProtectedRoute";
 
-
 // Admin Pages
 import AdminLogin from "./admin/AdminLogin";
 import ProtectedRoute from "./admin/ProtectedRoute";
@@ -40,41 +35,25 @@ import ViewProduct from "./admin/ViewProduct";
 import AddProduct from "./admin/AddProduct";
 import EditProduct from "./admin/EditProduct";
 import ViewOrders from "./admin/ViewOrders";
-
-
-
 function App() {
-
-
-  const [search, setSearch] = useState("");
-
-
-
-  return (
-
-    <>
-
-
-      <Nav
-        search={search}
-        setSearch={setSearch}
+const [search, setSearch] = useState("");
+return (
+  <>
+<Nav
+    search={search}
+    setSearch={setSearch}
       />
 
-
-
-      <Routes>
-
-
-        {/* Home */}
-
-        <Route
-          path="/"
-          element={<Home />}
+<Routes>
+{/* Home */}
+ <Route
+      path="/"
+      element={<Home />}
         />
 
 
 
-        {/* Products */}
+  {/* Products */}
 
         <Route
           path="/products"
@@ -92,17 +71,12 @@ function App() {
           }
         />
 
-
-
-        <Route
+             <Route
           path="/products/:id"
           element={<ProductsDetails />}
         />
 
-
-
-
-        {/* Authentication */}
+         {/* Authentication */}
 
         <Route
           path="/login"
@@ -126,11 +100,6 @@ function App() {
           path="/help"
           element={<Help />}
         />
-
-
-
-
-
         {/* Category Pages */}
 
         <Route
@@ -217,29 +186,17 @@ function App() {
           }
         />
 
-
-
-        <Route
+         <Route
           path="/ordersuccess"
           element={<OrderSuccess />}
         />
-
-
-
-
-
-
         {/* Admin */}
 
-
-        <Route
+         <Route
           path="/admin"
           element={<AdminLogin />}
         />
-
-
-
-        <Route
+       <Route
           path="/admin/dashboard"
           element={
             <ProtectedRoute>
@@ -248,9 +205,7 @@ function App() {
           }
         />
 
-
-
-        <Route
+          <Route
           path="/admin/products"
           element={
             <ProtectedRoute>
@@ -259,9 +214,7 @@ function App() {
           }
         />
 
-
-
-        <Route
+          <Route
           path="/admin/add-product"
           element={
             <ProtectedRoute>
@@ -270,9 +223,7 @@ function App() {
           }
         />
 
-
-
-        <Route
+         <Route
           path="/admin/edit-product/:id"
           element={
             <ProtectedRoute>
@@ -280,8 +231,6 @@ function App() {
             </ProtectedRoute>
           }
         />
-
-
 
         <Route
           path="/admin/orders"
@@ -292,20 +241,12 @@ function App() {
           }
         />
 
-
-
-      </Routes>
-
-
-
-
-    </>
+       </Routes>
+        </>
 
   )
 
 }
-
-
 export default App;
 
 
