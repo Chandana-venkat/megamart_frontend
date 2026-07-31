@@ -1,0 +1,102 @@
+.orders-page{
+
+padding:30px;
+
+background:#f4f7fb;
+
+min-height:100vh;
+
+}
+
+.orders-page h1{
+
+text-align:center;
+
+color:#2563eb;
+
+margin-bottom:10px;
+
+}
+
+.orders-page h3{
+
+text-align:center;
+
+margin-bottom:25px;
+
+color:#10b981;
+
+}
+
+.orders-table{
+
+width:100%;
+
+border-collapse:collapse;
+
+background:white;
+
+box-shadow:0 8px 20px rgba(0,0,0,.12);
+
+}
+
+.orders-table th{
+
+background:#2563eb;
+
+color:white;
+
+padding:15px;
+
+}
+
+.orders-table td{
+
+padding:12px;
+
+text-align:center;
+
+border-bottom:1px solid #ddd;
+
+}
+
+.orders-table tr:hover{
+
+background:#f9fafb;
+
+}
+.orders-table select{
+
+padding:8px 12px;
+
+border-radius:6px;
+
+border:1px solid #ccc;
+
+cursor:pointer;
+
+font-weight:600;
+
+}
+
+.delete-btn{
+
+background:#ef4444;
+
+color:white;
+
+border:none;
+
+padding:8px 15px;
+
+border-radius:6px;
+
+cursor:pointer;
+
+}
+
+.delete-btn:hover{
+
+background:#dc2626;
+
+}

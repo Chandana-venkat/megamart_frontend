@@ -1,0 +1,48 @@
+.customers-container {
+  padding: 30px;
+}
+
+.customers-container h2 {
+  margin-bottom: 20px;
+}
+
+.customers-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: white;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+
+.customers-table th,
+.customers-table td {
+  border: 1px solid #ddd;
+  padding: 12px;
+  text-align: center;
+}
+
+.customers-table th {
+  background: #0d6efd;
+  color: white;
+}
+
+.customers-table tr:nth-child(even) {
+  background: #f8f9fa;
+}
+
+.customers-table tr:hover {
+  background: #eef4ff;
+}
+
+
+.delete-btn {
+  background:red;
+  color:white;
+  border:none;
+  padding:8px 14px;
+  border-radius:5px;
+  cursor:pointer;
+}
+
+.delete-btn:hover {
+  background:darkred;
+}
