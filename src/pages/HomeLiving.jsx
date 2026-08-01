@@ -5,7 +5,7 @@ import ProductCard from "../components/ProductCard";
 // import Nav from "../components/Nav";
 import Footer from "../components/Footer";
 
-import "../styles/products.css";
+import "../styles/Products.css";
 
 
 function HomeLiving() {
