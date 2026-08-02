@@ -26,6 +26,8 @@ This application provides online shopping features like product browsing, search
 
 
 ## 🛍️ Product Features
+<img width="1903" height="920" alt="Screenshot 2026-08-02 152434" src="https://github.com/user-attachments/assets/f43ebc5f-cf19-4abc-bae4-2a3fcc60e28c" />
+
 
 - Category based products:
   - Men's
