@@ -97,43 +97,7 @@ This application provides online shopping features like product browsing, search
 <img width="440" height="914" alt="Screenshot 2026-08-02 145545" src="https://github.com/user-attachments/assets/8b396684-33da-455c-84b9-1c9c0a38bb8d" />
 
 
-MegaMart
-│
-├── src
-│   ├── components
-│   │   ├── Nav.jsx                             
-│   │   ├── Footer.jsx
-│   │   └── ProductCard.jsx
-│   │
-│   ├── pages
-│   │   ├── Home.jsx
-│   │   ├── Products.jsx
-│   │   ├── Login.jsx
-│   │   ├── Register.jsx
-│   │   ├── Checkout.jsx
-│   │   └── Orders.jsx
-│   │
-│   ├── admin
-│   │   ├── AdminLogin.jsx
-│   │   ├── Dashboard.jsx
-│   │   ├── AddProduct.jsx
-│   │   └── ViewProducts.jsx
-│   │
-│   ├── redux
-│   │   └── slices
-│   │
-│   ├── services
-│   │   └── api.js
-│   │
-│   ├── styles
-│   │
-│   └── App.jsx
-│
-├── backend
-│   └── db.json
-│
-├── package.json
-└── README.md
+
 
 
 # ⚙️ Installation and Setup
