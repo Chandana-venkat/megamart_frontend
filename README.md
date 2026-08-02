@@ -166,6 +166,8 @@ http://localhost:3001
 ---
 
 # 🔗 API Endpoints
+<img width="1887" height="890" alt="Screenshot 2026-08-02 145128" src="https://github.com/user-attachments/assets/bf8265ba-4b98-4c33-8f1a-c8f707c613d7" />
+
 
 ## Users
 
