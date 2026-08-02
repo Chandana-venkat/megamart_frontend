@@ -94,6 +94,8 @@ This application provides online shopping features like product browsing, search
 
 # 📂 Project Structure
 <img width="440" height="914" alt="Screenshot 2026-08-02 145515" src="https://github.com/user-attachments/assets/b743b057-4541-4fc4-bc19-5a8354851bd7" />
+<img width="350" height="814" alt="Screenshot 2026-08-02 145545" src="https://github.com/user-attachments/assets/8b396684-33da-455c-84b9-1c9c0a38bb8d" />
+
 
 MegaMart
 │
