@@ -104,19 +104,18 @@ This application provides online shopping features like product browsing, search
 
 ## Clone Repository
 
-```bash
+bash
 git clone <repository-url>
-```
 
----
 
 ## Install Frontend Dependencies
 
-```bash
+bash
 npm install
-```
 
----
+<img width="1911" height="952" alt="Screenshot 2026-08-01 133431" src="https://github.com/user-attachments/assets/74a81c72-6a3e-42a6-8982-b8f4e382cd62" />
+
+
 
 ## Install Backend Dependencies
 
