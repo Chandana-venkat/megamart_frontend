@@ -173,6 +173,9 @@ http://localhost:3001
 
 
 
+<img width="1858" height="1064" alt="Screenshot 2026-08-04 235033" src="https://github.com/user-attachments/assets/2c25076b-a7cc-44be-b628-a20fe33b0aa2" />
+
+
 ## Users
 
 ```
