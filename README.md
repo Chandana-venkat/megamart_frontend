@@ -62,7 +62,7 @@ This application provides online shopping features like product browsing, search
 - Delete Products
 - Manage Orders
 
-<img width="1897" height="827" alt="image" src="https://github.com/user-attachments/assets/291f5c40-e581-4738-b6df-454580a2f661" />
+
 
 
 
