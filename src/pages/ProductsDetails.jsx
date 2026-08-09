@@ -7,655 +7,232 @@ import Footer from "../components/Footer";
 import "../styles/ProductDetails.css";
 import API from "../services/api";
 
-
 function ProductDetails() {
 
-
   const { id } = useParams();
-
   const navigate = useNavigate();
 
+  const user = JSON.parse(localStorage.getItem("currentUser"));
 
+  const [product, setProduct] = useState(null);
 
-  const user =
-  JSON.parse(localStorage.getItem("user"));
-
-
-
-  const cartKey =
-  user ? "cart_" + user.email : "cart";
-
-
-
-  const wishlistKey =
-  user ? "wishlist_" + user.email : "wishlist";
-
-
-
-  const [product,setProduct] = useState(null);
-
-
-
-  // useEffect(()=>{
-
-
-  //   fetch(`http://localhost:3001/products/${id}`)
-
-  //   .then(res=>res.json())
-
-  //   .then(data=>setProduct(data))
-
-  //   .catch(err=>console.log(err));
-
-
-  // },[id]);
-useEffect(()=>{
-
+  useEffect(() => {
 
     API.get(`/products/${id}`)
-
-    .then((res)=>{
-
+      .then((res) => {
         setProduct(res.data);
-
-    })
-
-    .catch((err)=>{
-
+      })
+      .catch((err) => {
         console.log(err);
-
-    });
-
-
-},[id]);
-
-
-
-
-
-
-  // ADD TO CART
-
-  const addToCart=()=>{
-
-
-    if(!user){
-
-      alert("Please Login First");
-
-      navigate("/login");
-
-      return;
-
-    }
-
-
-
-    let cart =
-    JSON.parse(localStorage.getItem(cartKey)) || [];
-
-
-
-
-    const existing =
-    cart.find(
-      item=>item.id===product.id
-    );
-
-
-
-
-    if(existing){
-
-      existing.quantity += 1;
-
-    }
-
-    else{
-
-
-      cart.push({
-
-        ...product,
-
-        quantity:1
-
       });
 
+  }, [id]);
 
-    }
+  // ADD TO CART
+  const addToCart = async () => {
 
-
-
-
-    localStorage.setItem(
-
-      cartKey,
-
-      JSON.stringify(cart)
-
-    );
-
-
-
-    // checkout support
-
-    localStorage.setItem(
-
-      "cart",
-
-      JSON.stringify(cart)
-
-    );
-
-
-
-    alert("Product Added To Cart 🛒");
-
-
-    navigate("/cart");
-
-
-  };
-
-
-
-
-
-
-
-
-
-  // ADD TO WISHLIST
-
-  const addToWishlist=()=>{
-
-
-    if(!user){
-
+    if (!user) {
       alert("Please Login First");
-
       navigate("/login");
-
       return;
-
     }
 
-
-
-
-    let wishlist =
-
-    JSON.parse(localStorage.getItem(wishlistKey)) || [];
-
-
-
-
-
-    const exists =
-
-    wishlist.find(
-
-      item=>item.id===product.id
-
-    );
-
-
-
-
-
-    if(exists){
-
-
-      alert("Already in Wishlist ❤️");
-
-      return;
-
-
-    }
-
-
-
-
-
-    wishlist.push({
-
-      ...product,
-
-      quantity:1
-
-    });
-
-
-
-
-
-
-    localStorage.setItem(
-
-      wishlistKey,
-
-      JSON.stringify(wishlist)
-
-    );
-
-
-
-
-
-    alert("Added To Wishlist ❤️");
-
-
-  };
-
-
-
-
-
-
-
-
-
-
-
-  // BUY NOW
-
-  const buyNow=()=>{
-
-
-    if(!user){
-
-      alert("Please Login First");
-
-      navigate("/login");
-
-      return;
-
-    }
-
-
-
-
-
-    const buyProduct=[
-
-
-      {
-
-        ...product,
-
-        quantity:1
-
+    try {
+
+      const existing = await API.get(
+        `/cart?userEmail=${user.email}&productId=${product.id}`
+      );
+
+      if (existing.data.length > 0) {
+        alert("Already in Cart 🛒");
+        return;
       }
 
+      await API.post("/cart", {
+        userEmail: user.email,
+        productId: product.id,
+        name: product.name,
+        brand: product.brand,
+        category: product.category,
+        image: product.image,
+        price: product.price,
+        rating: product.rating,
+        quantity: 1
+      });
 
-    ];
+      alert("Added To Cart 🛒");
+      navigate("/cart");
 
-
-
-
-
-    localStorage.setItem(
-
-      cartKey,
-
-      JSON.stringify(buyProduct)
-
-    );
-
-
-
-
-
-    localStorage.setItem(
-
-      "cart",
-
-      JSON.stringify(buyProduct)
-
-    );
-
-
-
-
-
-    navigate("/checkout");
-
+    } catch (err) {
+      console.log(err);
+    }
 
   };
 
+  // ADD TO WISHLIST
+  const addToWishlist = async () => {
 
+    if (!user) {
+      alert("Please Login First");
+      navigate("/login");
+      return;
+    }
 
+    try {
 
+      const existing = await API.get(
+        `/wishlist?userEmail=${user.email}&productId=${product.id}`
+      );
 
+      if (existing.data.length > 0) {
+        alert("Already in Wishlist ❤️");
+        return;
+      }
 
+      await API.post("/wishlist", {
+        userEmail: user.email,
+        productId: product.id,
+        name: product.name,
+        brand: product.brand,
+        category: product.category,
+        image: product.image,
+        price: product.price,
+        rating: product.rating,
+        quantity: 1
+      });
 
+      alert("Added To Wishlist ❤️");
 
+    } catch (err) {
+      console.log(err);
+    }
 
-  if(!product){
+  };
 
+  // BUY NOW
+  const buyNow = async () => {
 
-    return(
+    if (!user) {
+      alert("Please Login First");
+      navigate("/login");
+      return;
+    }
 
-      <h2 className="loading">
+    try {
 
-        Loading...
+      // Clear old cart
+      const cart = await API.get(`/cart?userEmail=${user.email}`);
 
-      </h2>
+      for (const item of cart.data) {
+        await API.delete(`/cart/${item.id}`);
+      }
 
-    );
+      // Add selected product
+      await API.post("/cart", {
+        userEmail: user.email,
+        productId: product.id,
+        name: product.name,
+        brand: product.brand,
+        category: product.category,
+        image: product.image,
+        price: product.price,
+        rating: product.rating,
+        quantity: 1
+      });
 
+      navigate("/checkout");
+
+    } catch (err) {
+      console.log(err);
+    }
+
+  };
+
+  if (!product) {
+    return <h2 className="loading">Loading...</h2>;
   }
 
-
-
-
-
-
-
-
-  return(
-
-
+  return (
     <>
+      <Nav />
 
+      <div className="product-details">
 
-    <Nav />
+        <div className="product-image">
+          <img
+            src={product.image}
+            alt={product.name}
+            className="details-image"
+          />
+        </div>
 
+        <div className="product-info">
 
+          <h1>{product.name}</h1>
 
+          <h2>₹{product.price}</h2>
 
-    <div className="product-details">
+          {product.oldPrice && (
+            <p>
+              <del>₹{product.oldPrice}</del>
+            </p>
+          )}
 
-
-
-
-
-      <div className="product-image">
-
-  <img
-    src={product.image}
-    alt={product.name}
-    className="details-image"
-  />
-
-</div>
-
-
-
-
-
-
-
-      <div className="product-info">
-
-
-
-        <h1>
-
-        {product.name}
-
-        </h1>
-
-
-
-
-
-        <h2>
-
-        ₹{product.price}
-
-        </h2>
-
-
-
-
-
-        {
-          product.oldPrice &&
+          {product.discount && (
+            <p>🔥 {product.discount}</p>
+          )}
 
           <p>
-
-          <del>
-          ₹{product.oldPrice}
-          </del>
-
+            <strong>Category:</strong> {product.category}
           </p>
-
-        }
-
-
-
-
-
-
-
-        {
-          product.discount &&
 
           <p>
-
-          🔥 {product.discount}
-
+            ⭐ {product.rating} ({product.reviews} reviews)
           </p>
 
-        }
+          <p className="description">
+            {product.description}
+          </p>
 
+          <p>
+            <strong>Color:</strong> {product.color || "Available"}
+          </p>
 
+          <p>
+            <strong>Size:</strong> {product.size || "Free Size"}
+          </p>
 
+          <p>
+            <strong>Delivery:</strong> {product.delivery || "Free Delivery"}
+          </p>
 
+          <p>
+            <strong>Warranty:</strong> {product.warranty || "No Warranty"}
+          </p>
 
+          <div className="buttons">
 
+            <button onClick={addToCart}>
+              🛒 Add Cart
+            </button>
 
-        <p>
+            <button onClick={addToWishlist}>
+              ❤️ Wishlist
+            </button>
 
-        <strong>
-        Category:
-        </strong>
+            <button onClick={buyNow}>
+              ⚡ Buy Now
+            </button>
 
-        {" "}
-
-        {product.category}
-
-        </p>
-
-
-
-
-
-
-
-        <p>
-
-        ⭐ {product.rating}
-
-        {" "}
-
-        ({product.reviews} reviews)
-
-        </p>
-
-
-
-
-
-
-
-
-        <p className="description">
-
-        {product.description}
-
-        </p>
-
-
-
-
-
-
-
-
-        <p>
-
-        <strong>
-        Color:
-        </strong>
-
-        {" "}
-
-        {product.color || "Available"}
-
-        </p>
-
-
-
-
-
-
-
-        <p>
-
-        <strong>
-        Size:
-        </strong>
-
-        {" "}
-
-        {product.size || "Free Size"}
-
-        </p>
-
-
-
-
-
-
-
-        <p>
-
-        <strong>
-        Delivery:
-        </strong>
-
-        {" "}
-
-        {product.delivery || "Free Delivery"}
-
-        </p>
-
-
-
-
-
-
-
-        <p>
-
-        <strong>
-        Warranty:
-        </strong>
-
-        {" "}
-
-        {product.warranty || "No Warranty"}
-
-        </p>
-
-
-
-
-
-
-
-
-
-        <div className="buttons">
-
-
-
-
-
-          <button
-
-          onClick={addToCart}
-
-          >
-
-          🛒 Add Cart
-
-          </button>
-
-
-
-
-
-
-
-          <button
-
-          onClick={addToWishlist}
-
-          >
-
-          ❤️ Wishlist
-
-          </button>
-
-
-
-
-
-
-
-          <button
-
-          onClick={buyNow}
-
-          >
-
-          ⚡ Buy Now
-
-          </button>
-
-
-
-
-
+          </div>
 
         </div>
 
-
-
-
-
-
       </div>
 
-
-
-
-
-
-    </div>
-
-
-
-
-
-
-
-    <Footer />
-
-
-
+      <Footer />
     </>
-
-
   );
-
-
 }
-
-
 
 export default ProductDetails;

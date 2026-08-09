@@ -3,7 +3,6 @@ import { useState } from "react";
 import Footer from "../components/Footer";
 import "../styles/Contact.css";
 
-
 function Contact() {
 
 

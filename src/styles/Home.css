@@ -3,7 +3,7 @@
     height: 350px;
     background: linear-gradient(
         to right,
-        #667eea,
+        #26c51e,
         #764ba2
     );
 
@@ -375,3 +375,136 @@ grid-template-columns:
 
 }
 
+.offer-banner{
+    margin:50px 30px;
+    padding:50px;
+    border-radius:25px;
+
+    background:linear-gradient(135deg,#30e082,#764ba2);
+
+    color:white;
+
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+
+    text-align:center;
+}
+
+
+.offer-banner h2{
+    font-size:36px;
+    margin-bottom:15px;
+}
+
+
+.offer-banner p{
+    font-size:20px;
+    margin-bottom:30px;
+}
+
+
+
+.offer-banner button{
+
+    padding:14px 40px;
+
+    border:none;
+    border-radius:30px;
+
+    background:white;
+
+    color:#764ba2;
+
+    font-size:18px;
+
+    font-weight:700;
+
+    cursor:pointer;
+
+    transition:.3s;
+
+}
+
+
+.offer-banner button:hover{
+    transform:scale(1.08);
+}
+.brand-section{
+    margin-top:50px;
+    padding:30px;
+}
+
+
+.brand-container{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    gap:20px;
+}
+
+
+.brand-card{
+
+    width:120px;
+    height:60px;
+
+    background:white;
+
+    border-radius:12px;
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+
+    font-size:18px;
+    font-weight:700;
+
+    box-shadow:0 4px 12px rgba(0,0,0,0.15);
+
+    transition:.3s;
+}
+
+
+.brand-card:hover{
+    transform:translateY(-5px);
+}
+
+.view-all-container{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    margin:50px 0;
+}
+
+
+.view-all-btn{
+
+    padding:15px 45px;
+
+    border:none;
+    border-radius:30px;
+
+    background:#2563eb;
+
+    color:white;
+
+    font-size:18px;
+
+    font-weight:700;
+
+    cursor:pointer;
+
+    transition:.3s;
+
+}
+
+
+.view-all-btn:hover{
+
+    background:#1d4ed8;
+
+    transform:scale(1.08);
+
+}

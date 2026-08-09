@@ -1,130 +1,293 @@
+/* NAVBAR */
+
 .navbar {
-  width: 100%;
-  height: 70px;
-  background: #2874f0;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0 30px;
-  box-sizing: border-box;
+
+    width: 100%;
+    min-height: 80px;
+
+    background: linear-gradient(90deg,
+            #ffffff,
+            #f3f8ff);
+
+    display: flex;
+    align-items: center;
+
+    padding: 15px 35px;
+
+    gap: 25px;
+
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.12);
+
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+
+    border-bottom: 4px solid #ff9800;
+
 }
 
 
-/* Logo */
-
-.logo a {
-  text-decoration: none;
-  color: white;
-}
+/* LOGO */
 
 .logo h2 {
-  margin: 0;
-  font-size: 28px;
+
+    font-size: 32px;
+
+    font-weight: 700;
+
+    background: linear-gradient(45deg,
+            #ff512f,
+            #dd2476,
+            #6c5ce7);
+
+    -webkit-background-clip: text;
+
+    color: transparent;
+
 }
 
 
+/* SEARCH */
 
-/* Search */
 
 .search-box {
-  flex: 1;
-  display: flex;
-  justify-content: center;
-  margin: 0 30px;
+
+    flex: 1;
+
+    display: flex;
+
+    justify-content: center;
+
 }
+
 
 .search-box input {
-  width: 350px;
-  padding: 10px 15px;
-  border-radius: 5px;
-  border: none;
-  outline: none;
-  font-size: 15px;
+
+    width: 450px;
+
+    padding: 13px 20px;
+
+    border-radius: 30px;
+
+    border: 2px solid #ddd;
+
+    outline: none;
+
+    font-size: 15px;
+
 }
 
 
+.search-box input:focus {
 
-/* Links */
+    border-color: #2874f0;
+
+    box-shadow: 0 0 10px #2874f0;
+
+}
+
+
+/* LINKS */
+
 
 .nav-links {
-  display: flex;
-  align-items: center;
-  gap: 18px;
-  list-style: none;
-  margin: 0;
-  padding: 0;
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 18px;
+
+    list-style: none;
+
 }
 
 
-.nav-links li a {
-  color: white;
-  text-decoration: none;
-  font-size: 15px;
-  font-weight: 500;
+.nav-links a {
+
+    text-decoration: none;
+
+    font-weight: 600;
+
+    color: #333;
+
+    transition: .3s;
+
 }
 
 
-.nav-links li a:hover {
-  color: yellow;
+.nav-links a:hover {
+
+    transform: translateY(-3px);
+
 }
 
 
+/* Category Colors */
 
-/* User Name */
+
+.nav-links a[href="/mens"] {
+    color: #2563eb;
+}
+
+
+.nav-links a[href="/womens"] {
+    color: #ec4899;
+}
+
+
+.nav-links a[href="/home-living"] {
+    color: #16a34a;
+}
+
+
+.nav-links a[href="/beauty"] {
+    color: #e11d48;
+}
+
+
+.nav-links a[href="/genz"] {
+    color: #8b5cf6;
+}
+
+
+.nav-links a[href="/products"] {
+    color: #f97316;
+}
+
+
+.nav-links a[href="/wishlist"] {
+    color: #db2777;
+}
+
+
+.nav-links a[href="/cart"] {
+    color: #059669;
+}
+
+
+.nav-links a[href="/orders"] {
+    color: #7c3aed;
+}
+
+
+/* USER */
+
 
 .user-name {
-  color: white;
-  font-weight: bold;
-  font-size: 16px;
+
+    background: #dbeafe;
+
+    color: #2563eb;
+
+    padding: 8px 15px;
+
+    border-radius: 20px;
+
+    font-weight: 600;
+
 }
 
 
+/* LOGOUT */
 
-/* Logout Button */
 
 .logout-btn {
-  background: red;
-  color: white;
-  border: none;
-  padding: 8px 14px;
-  border-radius: 5px;
-  cursor: pointer;
-  font-size: 14px;
+
+    background: #ef4444;
+
+    color: white;
+
+    border: none;
+
+    padding: 10px 18px;
+
+    border-radius: 25px;
+
+    cursor: pointer;
+
+    font-weight: 600;
+
 }
 
 
 .logout-btn:hover {
-  background: darkred;
+
+    background: #b91c1c;
+
 }
 
 
 
-/* Responsive */
-
-@media(max-width:1000px){
-
-  .navbar{
-    flex-wrap: wrap;
-    height: auto;
-    padding: 15px;
-  }
+/* RESPONSIVE */
 
 
-  .search-box{
-    order: 3;
-    width: 100%;
-    margin: 15px 0;
-  }
+@media(max-width:1200px) {
+
+    .navbar {
+
+        flex-wrap: wrap;
+
+    }
 
 
-  .search-box input{
-    width: 100%;
-  }
+    .search-box {
+
+        order: 3;
+
+        width: 100%;
+
+    }
 
 
-  .nav-links{
-    flex-wrap: wrap;
-    gap: 12px;
-  }
+    .search-box input {
+
+        width: 100%;
+
+    }
+
+
+    .nav-links {
+
+        flex-wrap: wrap;
+
+        justify-content: center;
+
+    }
+
+
+}
+
+
+@media(max-width:600px) {
+
+    .logo h2 {
+
+        font-size: 26px;
+
+    }
+
+
+    .nav-links a {
+
+        font-size: 13px;
+
+    }
+
+    .admin-link {
+        background: linear-gradient(135deg, #1e40af, #3b82f6);
+        color: white !important;
+        padding: 9px 18px;
+        border-radius: 25px;
+        font-weight: 600;
+        transition: 0.3s;
+        box-shadow: 0 4px 10px rgba(59, 130, 246, 0.3);
+    }
+
+    .admin-link:hover {
+        background: linear-gradient(135deg, #1d4ed8, #2563eb);
+        transform: translateY(-2px);
+        color: white !important;
+    }
 
 }

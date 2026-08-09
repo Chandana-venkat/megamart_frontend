@@ -1,121 +1,122 @@
-.admin-page{
+.admin-page {
 
-background:#f4f7fb;
+    background: #f4f7fb;
 
-min-height:100vh;
+    min-height: 100vh;
 
-display:flex;
+    display: flex;
 
-justify-content:center;
+    justify-content: center;
 
-align-items:center;
+    align-items: center;
 
-padding:40px;
-
-}
-
-.admin-form{
-
-width:700px;
-
-background:white;
-
-padding:35px;
-
-border-radius:15px;
-
-box-shadow:0 8px 20px rgba(0,0,0,.15);
+    padding: 40px;
 
 }
 
-.admin-form h1{
+.admin-form {
 
-text-align:center;
+    width: 700px;
 
-margin-bottom:25px;
+    background: white;
 
-color:#2563eb;
+    padding: 35px;
+
+    border-radius: 15px;
+
+    box-shadow: 0 8px 20px rgba(0, 0, 0, .15);
 
 }
 
-.admin-form form{
+.admin-form h1 {
 
-display:flex;
+    text-align: center;
 
-flex-direction:column;
+    margin-bottom: 25px;
 
-gap:15px;
+    color: #2563eb;
+
+}
+
+.admin-form form {
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 15px;
 
 }
 
 .admin-form input,
 .admin-form select,
-.admin-form textarea{
+.admin-form textarea {
 
-padding:14px;
+    padding: 14px;
 
-font-size:16px;
+    font-size: 16px;
 
-border:1px solid #ccc;
+    border: 1px solid #ccc;
 
-border-radius:8px;
+    border-radius: 8px;
 
-outline:none;
+    outline: none;
 
 }
 
 .admin-form input:focus,
 .admin-form select:focus,
-.admin-form textarea:focus{
+.admin-form textarea:focus {
 
-border:2px solid #2563eb;
-
-}
-
-.admin-form button{
-
-padding:15px;
-
-background:#10b981;
-
-color:white;
-
-border:none;
-
-font-size:18px;
-
-border-radius:8px;
-
-cursor:pointer;
-
-transition:.3s;
+    border: 2px solid #2563eb;
 
 }
 
-.admin-form button:hover{
+.admin-form button {
 
-background:#059669;
+    padding: 15px;
+
+    background: #10b981;
+
+    color: white;
+
+    border: none;
+
+    font-size: 18px;
+
+    border-radius: 8px;
+
+    cursor: pointer;
+
+    transition: .3s;
+
+}
+
+.admin-form button:hover {
+
+    background: #059669;
 
 }
 
-.preview-image{
+.preview-image {
 
-width:220px;
+    width: 220px;
 
-height:220px;
+    height: 220px;
 
-object-fit:cover;
+    object-fit: cover;
 
-border-radius:10px;
+    border-radius: 10px;
 
-border:2px solid #ddd;
+    border: 2px solid #ddd;
 
-margin:auto;
+    margin: auto;
 
 }
-.error{
-    color:red;
-    font-size:14px;
-    margin-top:3px;
-    margin-bottom:8px;
+
+.error {
+    color: red;
+    font-size: 14px;
+    margin-top: 3px;
+    margin-bottom: 8px;
 }

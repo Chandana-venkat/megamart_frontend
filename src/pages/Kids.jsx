@@ -1,17 +1,13 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-
 // import Nav from "../components/Nav";
 import Footer from "../components/Footer";
 import ProductCard from "../components/ProductCard";
 import API from "../services/api";
 import "../styles/Products.css";
-
 function Kids() {
-
-  const navigate = useNavigate();
-
-  const [products, setProducts] = useState([]);
+ const navigate = useNavigate();
+ const [products, setProducts] = useState([]);
 
   // useEffect(() => {
 
@@ -42,12 +38,8 @@ function Kids() {
           .catch((err) => console.log(err));
       }, []);
 
-
-
-  const addToCart = (product) => {
-
-    const user = JSON.parse(localStorage.getItem("user"));
-
+const addToCart = (product) => {
+ const user = JSON.parse(localStorage.getItem("user"));
     if (!user) {
 
       alert("Please Login First");
@@ -57,8 +49,7 @@ function Kids() {
       return;
 
     }
-
-    const cartKey = `cart_${user.email}`;
+   const cartKey = `cart_${user.email}`;
 
     let cart =
       JSON.parse(localStorage.getItem(cartKey)) || [];
@@ -101,12 +92,7 @@ function Kids() {
     alert("Added To Cart 🛒");
 
   };
-
-
-
-
-
-  const addToWishlist = (product) => {
+const addToWishlist = (product) => {
 
     const user = JSON.parse(localStorage.getItem("user"));
 
@@ -150,12 +136,7 @@ function Kids() {
 
   };
 
-
-
-
-
-
-  const buyNow = (product) => {
+const buyNow = (product) => {
 
     const user = JSON.parse(localStorage.getItem("user"));
 
@@ -180,19 +161,11 @@ function Kids() {
     navigate("/checkout");
 
   };
-
-
-
-
-
-
-  return (
+   return (
 
     <>
 
-     
-
-      <div className="products-page">
+     <div className="products-page">
 
         <h1>🧒 Kids Collection</h1>
 
@@ -237,5 +210,4 @@ function Kids() {
   );
 
 }
-
 export default Kids;

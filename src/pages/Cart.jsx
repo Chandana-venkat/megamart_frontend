@@ -1,34 +1,115 @@
-import { useSelector, useDispatch } from "react-redux";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-
-import {
-    increaseQuantity,
-    decreaseQuantity,
-    removeFromCart
-} from "../redux/slices/cartSlice";
-
+import API from "../services/api";
 import "../styles/Cart.css";
 
 function Cart() {
 
     const navigate = useNavigate();
 
-    const dispatch = useDispatch();
+    const [cartItems, setCartItems] = useState([]);
 
-    const cartItems = useSelector(
-        (state) => state.cart.cartItems
-    );
+    useEffect(() => {
+
+        const user = JSON.parse(localStorage.getItem("currentUser"));
+
+        if (!user) {
+
+            navigate("/login");
+
+            return;
+
+        }
+
+        getCart();
+
+    }, []);
+
+    const getCart = () => {
+
+        const user = JSON.parse(localStorage.getItem("currentUser"));
+
+        API.get(`/cart?userEmail=${user.email}`)
+            .then((res) => {
+
+                setCartItems(res.data);
+
+            })
+            .catch((err) => {
+
+                console.log(err);
+
+            });
+
+    };
 
     const total = cartItems.reduce(
 
-        (sum, item) =>
-
-            sum + item.price * item.quantity,
+        (sum, item) => sum + item.price * item.quantity,
 
         0
 
     );
 
+    const increaseQuantity = async (id) => {
+
+        const item = cartItems.find(cart => cart.id === id);
+
+        try {
+
+            await API.patch(`/cart/${id}`, {
+                quantity: item.quantity + 1
+            });
+
+            getCart();
+
+        } catch (err) {
+
+            console.log(err);
+
+        }
+
+    };
+
+    const decreaseQuantity = async (id) => {
+
+        const item = cartItems.find(cart => cart.id === id);
+
+        if (item.quantity <= 1) return;
+
+        try {
+
+            await API.patch(`/cart/${id}`, {
+                quantity: item.quantity - 1
+            });
+
+            getCart();
+
+        } catch (err) {
+
+            console.log(err);
+
+        }
+
+    };
+
+    const removeFromCart = async (id) => {
+
+        try {
+
+            await API.delete(`/cart/${id}`);
+
+            alert("Product Removed");
+
+            getCart();
+
+        } catch (err) {
+
+            console.log(err);
+
+        }
+
+    };
     return (
 
         <div className="cart-container">
@@ -78,14 +159,7 @@ function Cart() {
                                             <strong>
 
                                                 ₹
-
-                                                {
-
-                                                    item.price *
-
-                                                    item.quantity
-
-                                                }
+                                                {item.price * item.quantity}
 
                                             </strong>
 
@@ -95,11 +169,7 @@ function Cart() {
 
                                             <button
                                                 onClick={() =>
-                                                    dispatch(
-                                                        decreaseQuantity(
-                                                            item.id
-                                                        )
-                                                    )
+                                                    decreaseQuantity(item.id)
                                                 }
                                             >
                                                 -
@@ -113,11 +183,7 @@ function Cart() {
 
                                             <button
                                                 onClick={() =>
-                                                    dispatch(
-                                                        increaseQuantity(
-                                                            item.id
-                                                        )
-                                                    )
+                                                    increaseQuantity(item.id)
                                                 }
                                             >
                                                 +
@@ -134,11 +200,7 @@ function Cart() {
                                             className="remove-btn"
 
                                             onClick={() =>
-                                                dispatch(
-                                                    removeFromCart(
-                                                        item.id
-                                                    )
-                                                )
+                                                removeFromCart(item.id)
                                             }
 
                                         >
@@ -154,7 +216,6 @@ function Cart() {
                             ))
 
                         }
-
                         <div className="cart-total">
 
                             <h2>
@@ -190,3 +251,4 @@ function Cart() {
 }
 
 export default Cart;
+

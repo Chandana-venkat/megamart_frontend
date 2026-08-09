@@ -18,12 +18,13 @@ function Nav({ search = "", setSearch }) {
 
     navigate("/products");
 
-};
+  };
 
 
   const handleLogout = () => {
 
     localStorage.removeItem("currentUser");
+      localStorage.removeItem("token");
 
     alert("Logged Out Successfully 👋");
 
@@ -78,15 +79,15 @@ function Nav({ search = "", setSearch }) {
 
       <ul className="nav-links">
         <li>
-           <Link to="/mens">
+          <Link to="/mens">
             Men's
           </Link>
         </li>
 
         <li>
-              <Link to="/womens">
-               Women's
-              </Link>
+          <Link to="/womens">
+            Women's
+          </Link>
         </li>
 
 
@@ -94,24 +95,24 @@ function Nav({ search = "", setSearch }) {
           <Link to="/">Home</Link>
         </li>
 
-         <li>
-        <Link to="/home-living">
-        Home Living
-        </Link>
-         </li>
+        <li>
+          <Link to="/home-living">
+            Home Living
+          </Link>
+        </li>
 
-         <li>
-      <Link to="/beauty">
-        Beauty
-        </Link>
-         </li>
+        <li>
+          <Link to="/beauty">
+            Beauty
+          </Link>
+        </li>
 
-       <li>
-        <Link to="/genz">
-        Gen Z
-        </Link>
-       </li>
-       
+        <li>
+          <Link to="/genz">
+            Gen Z
+          </Link>
+        </li>
+
 
 
         <li>
@@ -150,6 +151,12 @@ function Nav({ search = "", setSearch }) {
         <li>
           <Link to="/help">
             Help
+          </Link>
+        </li>
+
+        <li>
+          <Link to="/admin" className="admin-link">
+            Admin
           </Link>
         </li>
 
@@ -193,6 +200,8 @@ function Nav({ search = "", setSearch }) {
           </Link>
 
         </li>
+
+
 
 
 

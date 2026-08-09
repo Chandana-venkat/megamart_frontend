@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import Footer from "../components/Footer";
 import ProductCard from "../components/ProductCard";
 import API from "../services/api";
+
 import "../styles/Products.css";
 
 function Women() {
@@ -31,22 +32,23 @@ function Women() {
   //     .catch(err => console.log(err));
 
   // }, []);
-// import API from "../services/api";
 
-useEffect(() => {
-  API.get("/products?category=Women")
-    .then((res) => {
-      setProducts(res.data);
-    })
-    .catch((err) => console.log(err));
-}, []);
+  useEffect(() => {
 
+    API.get("/products?category=Women")
+      .then((res) => {
 
+        setProducts(res.data);
 
+      })
+      .catch((err) => console.log(err));
+
+  }, []);
 
   const addToCart = (product) => {
 
-    const user = JSON.parse(localStorage.getItem("user"));
+    const user =
+      JSON.parse(localStorage.getItem("user"));
 
     if (!user) {
 
@@ -58,7 +60,8 @@ useEffect(() => {
 
     }
 
-    const cartKey = `cart_${user.email}`;
+    const cartKey =
+      `cart_${user.email}`;
 
     let cart =
       JSON.parse(localStorage.getItem(cartKey)) || [];
@@ -70,37 +73,43 @@ useEffect(() => {
 
       exists.quantity += 1;
 
-    } else {
+    }
+    else {
 
       cart.push({
+
         ...product,
+
         quantity: 1
+
       });
 
     }
 
     localStorage.setItem(
+
       cartKey,
+
       JSON.stringify(cart)
+
     );
 
     localStorage.setItem(
+
       "cart",
+
       JSON.stringify(cart)
+
     );
 
     alert("Added To Cart 🛒");
 
   };
 
-
-
-
-
-
   const addToWishlist = (product) => {
 
-    const user = JSON.parse(localStorage.getItem("user"));
+    const user =
+      JSON.parse(localStorage.getItem("user"));
 
     if (!user) {
 
@@ -112,7 +121,8 @@ useEffect(() => {
 
     }
 
-    const wishlistKey = `wishlist_${user.email}`;
+    const wishlistKey =
+      `wishlist_${user.email}`;
 
     let wishlist =
       JSON.parse(localStorage.getItem(wishlistKey)) || [];
@@ -131,23 +141,21 @@ useEffect(() => {
     wishlist.push(product);
 
     localStorage.setItem(
+
       wishlistKey,
+
       JSON.stringify(wishlist)
+
     );
 
     alert("Added To Wishlist ❤️");
 
   };
 
-
-
-
-
-
-
   const buyNow = (product) => {
 
-    const user = JSON.parse(localStorage.getItem("user"));
+    const user =
+      JSON.parse(localStorage.getItem("user"));
 
     if (!user) {
 
@@ -160,58 +168,70 @@ useEffect(() => {
     }
 
     localStorage.setItem(
+
       "buyProduct",
+
       JSON.stringify(product)
+
     );
 
     navigate("/checkout");
 
   };
 
-
-
-
-
-
   return (
 
     <>
 
-     
+      {/* <Nav /> */}
 
       <div className="products-page">
 
-        <h1>👗 Women's Collection</h1>
+        <h1>
+
+          👗 Women's Collection
+
+        </h1>
 
         <div className="products-container">
 
-          {
+          <div className="product-grid">
 
-            products.length === 0 ?
+            {
 
-              <h2>No Women's Products Found</h2>
+              products.length === 0
 
-              :
+                ?
 
-              products.map(product => (
+                <h2>
 
-                <ProductCard
+                  No Women's Products Found
 
-                  key={product.id}
+                </h2>
 
-                  product={product}
+                :
 
-                  onAddToCart={addToCart}
+                products.map((product) => (
 
-                  onAddToWishlist={addToWishlist}
+                  <ProductCard
 
-                  onBuyNow={buyNow}
+                    key={product.id}
 
-                />
+                    product={product}
 
-              ))
+                    onAddToCart={addToCart}
 
-          }
+                    onAddToWishlist={addToWishlist}
+
+                    onBuyNow={buyNow}
+
+                  />
+
+                ))
+
+            }
+
+          </div>
 
         </div>
 

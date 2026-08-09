@@ -1,474 +1,244 @@
-// import { useEffect, useState } from "react";
-// import { useNavigate } from "react-router-dom";
-// import "../styles/AdminDashboard.css";
-
-// function Dashboard() {
-
-//     const navigate = useNavigate();
-
-//     const [products, setProducts] = useState(0);
-//     const [users, setUsers] = useState(0);
-//     const [orders, setOrders] = useState(0);
-
-//     useEffect(() => {
-
-//         fetch("http://localhost:3001/products")
-//             .then(res => res.json())
-//             .then(data => setProducts(data.length));
-
-//         fetch("http://localhost:3001/users")
-//             .then(res => res.json())
-//             .then(data => setUsers(data.length));
-
-//         fetch("http://localhost:3001/orders")
-//             .then(res => res.json())
-//             .then(data => setOrders(data.length));
-
-//     }, []);
-
-//     const logout = () => {
-
-//         localStorage.removeItem("isAdmin");
-
-//         navigate("/admin");
-
-//     };
-
-//     return (
-
-//         <div className="dashboard">
-
-//             <h1>🛍 MegaMart Admin Dashboard</h1>
-
-//             <div className="dashboard-cards">
-
-//                 <div className="dashboard-card blue">
-
-//                     <h2>{products}</h2>
-
-//                     <p>Total Products</p>
-
-//                 </div>
-
-//                 <div className="dashboard-card green">
-
-//                     <h2>{users}</h2>
-
-//                     <p>Total Customers</p>
-
-//                 </div>
-
-//                 <div className="dashboard-card orange">
-
-//                     <h2>{orders}</h2>
-
-//                     <p>Total Orders</p>
-
-//                 </div>
-
-//             </div>
-
-//             <div className="dashboard-buttons">
-
-//                 <button
-//                     className="add-btn"
-//                     onClick={() => navigate("/admin/add-product")}
-//                 >
-//                     ➕ Add Product
-//                 </button>
-
-//             <button
-//               className="view-btn"
-//                 onClick={() => navigate("/admin/products")}
-//             >
-//                 📦 View Products
-//             </button>
-//                 <button
-//                     className="orders-btn"
-//                     onClick={() => navigate("/admin/orders")}
-//                 >
-//                     🛒 View Orders
-//                 </button>
-
-//                 <button
-//                     className="logout-btn"
-//                     onClick={logout}
-//                 >
-//                     🚪 Logout
-//                 </button>
-
-
-//                 <button
-
-//             className="products-btn"
-
-//             onClick={()=>
-//             navigate("/products")
-//             }
-
-//             >
-
-//             🌐 Go To Website
-
-//             </button>
-
-//             </div>
-
-//         </div>
-
-//     );
-
-// }
-
-// export default Dashboard;
-
-// import { useEffect, useState } from "react";
-// import { useNavigate } from "react-router-dom";
-// import "../styles/AdminDashboard.css";
-
-// function Dashboard() {
-
-//     const navigate = useNavigate();
-
-//     const [products, setProducts] = useState(0);
-//     const [users, setUsers] = useState(0);
-//     const [orders, setOrders] = useState(0);
-
-
-//     useEffect(() => {
-
-//         fetch("http://localhost:3001/products")
-//             .then(res => res.json())
-//             .then(data => setProducts(data.length))
-//             .catch(err => console.log(err));
-
-
-//         fetch("http://localhost:3001/users")
-//             .then(res => res.json())
-//             .then(data => setUsers(data.length))
-//             .catch(err => console.log(err));
-
-
-//         fetch("http://localhost:3001/orders")
-//             .then(res => res.json())
-//             .then(data => setOrders(data.length))
-//             .catch(err => console.log(err));
-
-
-//     }, []);
-
-
-
-//     const logout = () => {
-
-//         localStorage.removeItem("isAdmin");
-
-//         navigate("/admin");
-
-//     };
-
-
-
-//     return (
-
-//         <div className="dashboard">
-
-
-//             <h1>
-//                 🛍 MegaMart Admin Dashboard
-//             </h1>
-
-
-
-//             <div className="dashboard-cards">
-
-
-//                 <div className="dashboard-card blue">
-
-//                     <h2>{products}</h2>
-
-//                     <p>Total Products</p>
-
-//                 </div>
-
-
-
-//                 <div className="dashboard-card green">
-
-//                     <h2>{users}</h2>
-
-//                     <p>Total Customers</p>
-
-//                 </div>
-
-
-
-//                 <div className="dashboard-card orange">
-
-//                     <h2>{orders}</h2>
-
-//                     <p>Total Orders</p>
-
-//                 </div>
-
-
-//             </div>
-
-
-
-
-
-//             <div className="dashboard-buttons">
-
-
-
-//                 <button
-//                     className="add-btn"
-//                     onClick={() => navigate("/admin/add-product")}
-//                 >
-//                     ➕ Add Product
-//                 </button>
-
-
-
-
-//                 <button
-//                     className="view-btn"
-//                     onClick={() => navigate("/admin/products")}
-//                 >
-//                     📦 View Products
-//                 </button>
-
-
-
-
-//                 <button
-//                     className="orders-btn"
-//                     onClick={() => navigate("/admin/orders")}
-//                 >
-//                     🛒 View Orders
-//                 </button>
-
-
-
-
-
-//                 <button
-//                     className="logout-btn"
-//                     onClick={logout}
-//                 >
-//                     🚪 Logout
-//                 </button>
-
-
-
-
-
-//                 <button
-//                     className="products-btn"
-//                     onClick={() => navigate("/products")}
-//                 >
-//                     🌐 Go To Website
-//                 </button>
-
-
-
-//             </div>
-
-
-
-//         </div>
-
-//     );
-
-// }
-
-
-// export default Dashboard;
-
-
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "../styles/AdminDashboard.css";
 import API from "../services/api";
 
-function Dashboard() {
+import {
+    Chart as ChartJS,
+    CategoryScale,
+    LinearScale,
+    BarElement,
+    Title,
+    Tooltip,
+    Legend,
+} from "chart.js";
 
+import { Bar } from "react-chartjs-2";
+ChartJS.register(
+    CategoryScale,
+    LinearScale,
+    BarElement,
+    Title,
+    Tooltip,
+    Legend
+);
+
+
+function Dashboard() {
     const navigate = useNavigate();
 
-    const [products, setProducts] = useState(0);
-    const [users, setUsers] = useState(0);
-    const [orders, setOrders] = useState(0);
+    const [products, setProducts] = useState([]);
+    const [users, setUsers] = useState([]);
+    const [orders, setOrders] = useState([]);
 
+    useEffect(() => {
 
-    // useEffect(() => {
+        API.get("/products")
+            .then(res => {
+                setProducts(res.data);
+            });
 
-    //     fetch("http://localhost:3001/products")
-    //         .then(res => res.json())
-    //         .then(data => setProducts(data.length))
-    //         .catch(err => console.log(err));
+        API.get("/users")
+            .then(res => {
+                setUsers(res.data);
+            });
 
+        API.get("/orders")
+            .then(res => {
+                setOrders(res.data);
+            });
 
-    //     fetch("http://localhost:3001/users")
-    //         .then(res => res.json())
-    //         .then(data => setUsers(data.length))
-    //         .catch(err => console.log(err));
-
-
-    //     fetch("http://localhost:3001/orders")
-    //         .then(res => res.json())
-    //         .then(data => setOrders(data.length))
-    //         .catch(err => console.log(err));
-
-
-    // }, []);
-
-useEffect(() => {
-
-  API.get("/products")
-    .then(res => setProducts(res.data.length));
-
-  API.get("/users")
-    .then(res => setUsers(res.data.length));
-
-  API.get("/orders")
-    .then(res => setOrders(res.data.length));
-
-}, []);
-
+    }, []);
     const logout = () => {
 
-        localStorage.removeItem("isAdmin");
+        const confirmLogout = window.confirm("Are you sure you want to logout?");
 
-        navigate("/admin");
+        if (confirmLogout) {
+            localStorage.removeItem("isAdmin");
+            navigate("/admin");
+        }
 
     };
+    const chartData = {
 
+        labels: ["Products", "Customers", "Orders"],
 
+        datasets: [
 
+            {
+
+                label: "MegaMart Statistics",
+
+                data: [
+
+                    products.length,
+
+                    users.length,
+
+                    orders.length
+
+                ],
+
+                backgroundColor: [
+
+                    "#3b82f6",
+
+                    "#10b981",
+
+                    "#f59e0b"
+
+                ],
+
+                borderRadius: 10
+
+            }
+
+        ]
+
+    };
+    const options = {
+        responsive: true,
+        maintainAspectRatio: false,
+
+        plugins: {
+            legend: {
+                display: false,
+            },
+        },
+
+        scales: {
+            y: {
+                beginAtZero: true,
+                ticks: {
+                    stepSize: 1
+                }
+            }
+        }
+    };
     return (
 
-        <div className="dashboard">
+        <div className="admin-dashboard">
+
+            {/* Sidebar */}
+
+            <aside className="sidebar">
+
+                <h2 className="logo">
+                    🛍 MegaMart
+                </h2>
+
+                <ul>
+
+                    <li onClick={() => navigate("/admin/dashboard")}>
+                        🏠 Dashboard
+                    </li>
+
+                    <li onClick={() => navigate("/admin/products")}>
+                        📦 Products
+                    </li>
+
+                    <li onClick={() => navigate("/admin/add-product")}>
+                        ➕ Add Product
+                    </li>
+
+                    <li onClick={() => navigate("/admin/orders")}>
+                        🛒 Orders
+                    </li>
+
+                    <li onClick={() => navigate("/products")}>
+                        🌐 Website
+                    </li>
+
+                    <li onClick={logout}>
+                        🚪 Logout
+                    </li>
+
+                </ul>
+
+            </aside>
 
 
-            <h1>
-                🛍 MegaMart Admin Dashboard
-            </h1>
+            {/* Main Content */}
 
+            <div className="main-content">
 
+                <div className="top-bar">
 
-            <div className="dashboard-cards">
+                    <h1>
+                        📊 Admin Dashboard
+                    </h1>
 
-
-                <div className="dashboard-card blue">
-
-                    <h2>{products}</h2>
-
-                    <p>Total Products</p>
+                    <h3>
+                        Welcome Admin 👋
+                    </h3>
 
                 </div>
 
 
+                {/* Cards */}
 
-                <div className="dashboard-card green">
+                <div className="cards">
 
-                    <h2>{users}</h2>
+                    <div className="card blue">
 
-                    <p>Total Customers</p>
+                        <h2>{products.length}</h2>
+
+                        <p>Total Products</p>
+
+                    </div>
+
+
+                    <div className="card green">
+
+                        <h2>{users.length}</h2>
+
+                        <p>Customers</p>
+
+                    </div>
+
+
+                    <div className="card orange">
+
+                        <h2>{orders.length}</h2>
+
+                        <p>Orders</p>
+
+                    </div>
+
+
+                    <div className="card purple">
+
+                        <h2>₹75K</h2>
+
+                        <p>Revenue</p>
+
+                    </div>
 
                 </div>
 
 
+                {/* Graph */}
 
-                <div className="dashboard-card orange">
+                <div className="graph-box">
 
-                    <h2>{orders}</h2>
+                    <h2>📊 Monthly Statistics</h2>
 
-                    <p>Total Orders</p>
+                    <div className="chart-container">
+
+                        <Bar
+                            data={chartData}
+                            options={options}
+                        />
+
+                    </div>
 
                 </div>
-
 
             </div>
-
-
-
-
-            <div className="dashboard-buttons">
-
-
-
-                <button
-                    className="add-btn"
-                    onClick={() => navigate("/admin/add-product")}
-                >
-
-                    ➕ Add Product
-
-                </button>
-
-
-
-
-                <button
-                    className="view-btn"
-                    onClick={() => navigate("/admin/products")}
-                >
-
-                    📦 View Products
-
-                </button>
-
-
-
-
-
-                <button
-                    className="orders-btn"
-                    onClick={() => navigate("/admin/orders")}
-                >
-
-                    🛒 View Orders
-
-                </button>
-
-
-
-
-
-                <button
-                    className="logout-btn"
-                    onClick={logout}
-                >
-
-                    🚪 Logout
-
-                </button>
-
-
-
-
-
-                <button
-                    className="products-btn"
-                    onClick={() => navigate("/products")}
-                >
-
-                    🌐 Go To Website
-
-                </button>
-
-
-
-            </div>
-
-
 
         </div>
 
     );
-
 }
-
 
 export default Dashboard;

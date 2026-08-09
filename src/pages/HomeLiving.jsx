@@ -1,3 +1,98 @@
+// import React, { useEffect, useState } from "react";
+// import { useNavigate } from "react-router-dom";
+// import ProductCard from "../components/ProductCard";
+// // import Nav from "../components/Nav";
+// import Footer from "../components/Footer";
+// import "../styles/Products.css";
+// function HomeLiving() {
+
+//   const [products, setProducts] = useState([]);
+
+//   const navigate = useNavigate();
+
+//   useEffect(() => {
+
+//     fetch("http://localhost:3000/products")
+
+//       .then((res) => res.json())
+
+//       .then((data) => {
+
+//         console.log(data);
+
+//         const homeProducts = data.filter(
+//           product => product.category === "Home"
+//         );
+
+//         setProducts(homeProducts);
+
+//       })
+
+//       .catch((err) => console.log(err));
+
+//   }, []);
+
+//   const addToCart = (product) => {
+
+//     const user =
+//       JSON.parse(localStorage.getItem("user"));
+
+//     if (!user) {
+
+//       alert("Please Login First");
+
+//       navigate("/login");
+
+//       return;
+
+//     }
+
+//     const cartKey = `cart_${user.email}`;
+
+//     let cart =
+//       JSON.parse(localStorage.getItem(cartKey)) || [];
+
+//     const exist =
+//       cart.find(item => item.id === product.id);
+
+//     if (exist) {
+
+//       exist.quantity += 1;
+
+//     } else {
+
+//       cart.push({
+
+//         ...product,
+
+//         quantity: 1
+
+//       });
+
+//     }
+
+//     localStorage.setItem(
+
+//       cartKey,
+
+//       JSON.stringify(cart)
+
+//     );
+
+//     localStorage.setItem(
+
+//       "cart",
+
+//       JSON.stringify(cart)
+
+//     );
+
+//     alert("Added To Cart 🛒");
+
+//   };
+// }
+// export default HomeLiving;
+
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
@@ -6,56 +101,36 @@ import ProductCard from "../components/ProductCard";
 import Footer from "../components/Footer";
 
 import "../styles/Products.css";
-
+import API from "../services/api";
 
 function HomeLiving() {
-
 
   const [products, setProducts] = useState([]);
 
   const navigate = useNavigate();
 
-
-
   useEffect(() => {
 
+    API.get("/products?category=Home")
 
-    fetch("http://localhost:3000/products")
+      .then((res) => {
 
-      .then((res) => res.json())
+        console.log(res.data);
 
-      .then((data) => {
-
-
-        const homeProducts = data.filter(
-          product => product.category === "Home"
-        );
-
-
-        setProducts(homeProducts);
-
+        setProducts(res.data);
 
       })
 
       .catch((err) => console.log(err));
 
-
   }, []);
 
-
-
-
-
-
   const addToCart = (product) => {
-
 
     const user =
       JSON.parse(localStorage.getItem("user"));
 
-
-
-    if(!user){
+    if (!user) {
 
       alert("Please Login First");
 
@@ -65,40 +140,31 @@ function HomeLiving() {
 
     }
 
-
-
-    const cartKey = `cart_${user.email}`;
-
-
+    const cartKey =
+      `cart_${user.email}`;
 
     let cart =
       JSON.parse(localStorage.getItem(cartKey)) || [];
 
-
-
     const exist =
       cart.find(item => item.id === product.id);
 
-
-
-    if(exist){
+    if (exist) {
 
       exist.quantity += 1;
 
     }
-    else{
+    else {
 
       cart.push({
 
         ...product,
 
-        quantity:1
+        quantity: 1
 
       });
 
     }
-
-
 
     localStorage.setItem(
 
@@ -108,7 +174,6 @@ function HomeLiving() {
 
     );
 
-
     localStorage.setItem(
 
       "cart",
@@ -117,28 +182,16 @@ function HomeLiving() {
 
     );
 
-
-
     alert("Added To Cart 🛒");
-
 
   };
 
-
-
-
-
-
   const addToWishlist = (product) => {
-
-
 
     const user =
       JSON.parse(localStorage.getItem("user"));
 
-
-
-    if(!user){
+    if (!user) {
 
       alert("Please Login First");
 
@@ -148,24 +201,16 @@ function HomeLiving() {
 
     }
 
-
-
     const wishlistKey =
       `wishlist_${user.email}`;
-
-
 
     let wishlist =
       JSON.parse(localStorage.getItem(wishlistKey)) || [];
 
-
-
     const exist =
       wishlist.find(item => item.id === product.id);
 
-
-
-    if(exist){
+    if (exist) {
 
       alert("Already In Wishlist ❤️");
 
@@ -173,11 +218,7 @@ function HomeLiving() {
 
     }
 
-
-
     wishlist.push(product);
-
-
 
     localStorage.setItem(
 
@@ -187,105 +228,107 @@ function HomeLiving() {
 
     );
 
-
-
     alert("Added To Wishlist ❤️");
-
 
   };
 
+  const buyNow = (product) => {
 
+    const user =
+      JSON.parse(localStorage.getItem("user"));
 
+    if (!user) {
 
+      alert("Please Login First");
 
+      navigate("/login");
 
+      return;
+
+    }
+
+    localStorage.setItem(
+
+      "buyProduct",
+
+      JSON.stringify(product)
+
+    );
+
+    navigate("/checkout");
+
+  };
 
   return (
 
     <>
 
-
-     
-
+      {/* <Nav /> */}
 
       <div className="products-page">
 
-
         <h1>
+
           🏠 Home & Living Collection
+
         </h1>
-
-
 
         <div className="products-container">
 
+          <div className="product-grid">
 
-          {
+            {
 
+              products.length === 0 ?
 
-            products.length === 0 ?
+              (
 
+                <h2>
 
-            (
+                  No Home Living Products Found
 
-              <h2>
-                No Home Living Products Found
-              </h2>
+                </h2>
 
-            )
+              )
 
+              :
 
-            :
+              (
 
+                products.map((product) => (
 
-            (
+                  <ProductCard
 
-              products.map((product)=>(
+                    key={product.id}
 
+                    product={product}
 
-                <ProductCard
+                    onAddToCart={addToCart}
 
+                    onAddToWishlist={addToWishlist}
 
-                  key={product.id}
+                    onBuyNow={buyNow}
 
+                  />
 
-                  product={product}
+                ))
 
+              )
 
-                  onAddToCart={addToCart}
+            }
 
-
-                  onAddToWishlist={addToWishlist}
-
-
-                />
-
-
-              ))
-
-            )
-
-
-          }
-
-
+          </div>
 
         </div>
 
-
       </div>
-
-
 
       <Footer />
 
-
     </>
-
 
   );
 
 }
-
 
 export default HomeLiving;

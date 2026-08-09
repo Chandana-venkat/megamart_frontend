@@ -1,159 +1,51 @@
-.product-card{
+.product-card {
 
-    background:#fff;
-    border-radius:15px;
+    width:260px;
     padding:15px;
-    box-shadow:0 3px 12px rgba(0,0,0,0.15);
-
-    display:flex;
-    flex-direction:column;
-
-    height:480px;
-
-    transition:0.3s;
 
 }
 
 
-.product-card:hover{
-
-    transform:translateY(-5px);
-
-    box-shadow:0 8px 20px rgba(0,0,0,0.2);
-
-}
-
-
-
-/* Product Image */
-
-.product-card img{
-
-    width:100%;
-    height:210px;
-
-    object-fit:contain;
-
-    border-radius:10px;
-
-    margin-bottom:10px;
-
-}
-
-
-
-/* Product Name */
-
-.product-card h3{
-
-    font-size:17px;
-
-    color:#333;
-
-    margin:8px 0;
-
-    height:44px;
-
-    overflow:hidden;
-
-    display:-webkit-box;
-
-    -webkit-line-clamp:2;
-
-    -webkit-box-orient:vertical;
-
-}
-
-
-
-/* Brand */
-
-.product-card p{
-
-    margin:4px 0;
-
-    font-size:15px;
-
-    color:#555;
-
-}
-
-
-
-/* Price */
-
-.product-card h2{
-
-    font-size:20px;
-
-    color:#e17055;
-
-}
-
-
-
-/* Rating */
-
-.product-card p:last-child{
-
-    font-size:15px;
-
-}
-
-
-
-/* Buttons Container */
+/* Buttons container */
 
 .product-buttons{
 
     display:flex;
-
+    justify-content:center;
     gap:8px;
-
-    margin-top:auto;
+    margin-top:15px;
 
 }
 
 
-
-/* All Buttons */
-
 .product-buttons button{
 
-    flex:1;
+    width:75px;
+    height:35px;
 
     border:none;
-
-    padding:10px 8px;
-
     border-radius:8px;
 
     cursor:pointer;
 
-    font-weight:bold;
+    font-size:11px;
+    font-weight:600;
 
-    font-size:13px;
+    padding:0;
 
-    color:white;
-
-    transition:0.3s;
+    display:flex;
+    align-items:center;
+    justify-content:center;
 
 }
 
-
-
-/* Add To Cart */
+/* Cart */
 
 .cart-btn{
 
-    background:#ff9800;
+    background:#2563eb;
 
-}
-
-
-.cart-btn:hover{
-
-    background:#e68900;
+    color:white;
 
 }
 
@@ -163,14 +55,9 @@
 
 .wishlist-btn{
 
-    background:#e91e63;
+    background:#ec4899;
 
-}
-
-
-.wishlist-btn:hover{
-
-    background:#c2185b;
+    color:white;
 
 }
 
@@ -180,55 +67,8 @@
 
 .buy-btn{
 
-    background:#2196f3;
+    background:#f97316;
 
-}
-
-
-.buy-btn:hover{
-
-    background:#1565c0;
-
-}
-
-
-
-/* Responsive */
-
-@media(max-width:900px){
-
-
-    .product-card{
-
-        height:460px;
-
-    }
-
-
-    .product-buttons button{
-
-        font-size:12px;
-
-    }
-
-}
-
-
-
-@media(max-width:600px){
-
-
-    .product-card{
-
-        height:450px;
-
-    }
-
-
-    .product-card img{
-
-        height:180px;
-
-    }
+    color:white;
 
 }

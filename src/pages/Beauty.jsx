@@ -167,6 +167,8 @@ function Beauty() {
         <h1>💄 Beauty Products</h1>
 
         <div className="products-container">
+          
+    <div className="product-grid">
 
           {
 
@@ -195,7 +197,7 @@ function Beauty() {
               ))
 
           }
-
+         </div>
         </div>
 
       </div>

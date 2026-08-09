@@ -1,483 +1,254 @@
-import { useEffect, useState } from "react";
-
-import Footer from "../components/Footer";
-
-import "../styles/Orders.css";
-
 import API from "../services/api";
-
-
+import { useEffect, useState } from "react";
+import Footer from "../components/Footer";
+import "../styles/Orders.css";
 function Orders() {
 
+    const [orders, setOrders] = useState([]);
+    const trackOrder = async (order) => {
 
-  const [orders,setOrders] = useState([]);
+        const statusList = [
+            "Order Confirmed",
+            "Packed",
+            "Shipped",
+            "Out for Delivery",
+            "Delivered"
+        ];
 
-  const [loading,setLoading] = useState(true);
+        const currentIndex = statusList.indexOf(order.status);
 
+        if (currentIndex === statusList.length - 1) {
 
+            alert("✅ Order Already Delivered");
 
+            return;
+        }
 
-  useEffect(()=>{
+        const updatedStatus = statusList[currentIndex + 1];
 
-    fetchOrders();
+        try {
 
-  },[]);
+            await API.patch(`/orders/${order.id}`, {
+                status: updatedStatus
+            });
 
+            setOrders(prev =>
+                prev.map(o =>
+                    o.id === order.id
+                        ? { ...o, status: updatedStatus }
+                        : o
+                )
+            );
 
+        }
 
+        catch (error) {
 
+            console.log(error);
 
-  const fetchOrders = async()=>{
+        }
 
+    };
+    const cancelOrder = async (id) => {
 
-    try{
+        const confirmCancel = window.confirm(
+            "Are you sure you want to cancel this order?"
+        );
 
+        if (!confirmCancel) return;
 
-      const user = JSON.parse(
-        localStorage.getItem("user")
-      );
+        try {
 
+            await API.delete(`/orders/${id}`);
 
+            setOrders(prev =>
+                prev.filter(order => order.id !== id)
+            );
 
-      const response = await API.get("/orders");
+            alert("✅ Order Cancelled Successfully");
 
+        }
 
+        catch (error) {
 
-      // Logged in user orders only
+            console.log(error);
 
-      const userOrders = response.data.filter(
+            alert("Failed to cancel order");
 
-        (order)=>
+        }
 
-        order.email === user?.email
+    };
+    useEffect(() => {
 
-      );
+        const fetchOrders = async () => {
 
+            try {
 
+                const user = JSON.parse(
+                    localStorage.getItem("currentUser")
+                );
 
-      setOrders(userOrders);
+                const response = await API.get("/orders");
 
+                const myOrders = response.data.filter(
+                    order => order.email === user?.email
+                );
 
-
-    }
-
-
-    catch(error){
-
-
-      console.log(error);
-
-      alert(
-        "Failed to load orders"
-      );
-
-
-    }
-
-
-    finally{
-
-
-      setLoading(false);
-
-
-    }
-
-
-  };
-
-
-
-
-
-
-
-  return(
-
-
-    <>
-
-
-    <div className="orders-container">
-
-
-
-      <h1>
-        📦 My Orders
-      </h1>
-
-
-
-
-
-      {
-        loading ?
-
-
-        (
-
-          <h2>
-            Loading Orders...
-          </h2>
-
-        )
-
-
-        :
-
-
-        orders.length===0 ?
-
-
-        (
-
-          <h2 className="empty">
-
-            No Orders Found
-
-          </h2>
-
-        )
-
-
-        :
-
-
-        orders.map((order)=>(
-
-
-
-          <div
-
-          className="order-card"
-
-          key={order.id}
-
-          >
-
-
-
-
-
-            <h2>
-
-            🧾 Order ID : {order.id}
-
-            </h2>
-
-
-
-
-
-            <p>
-
-            <b>📅 Date :</b>
-
-            {order.date}
-
-            </p>
-
-
-
-
-
-
-            <p>
-
-
-            <b>🚚 Status :</b>
-
-
-            <span className="status">
-
-            {order.status || "Order Confirmed"}
-
-            </span>
-
-
-            </p>
-
-
-
-
-
-
-
-            <p>
-
-            <b>💰 Total :</b>
-
-            ₹{order.total}
-
-            </p>
-
-
-
-
-
-
-
-
-
-            <div className="customer-box">
-
-
-            <h3>
-
-            👤 Customer Details
-
-            </h3>
-
-
-
-
-
-            <p>
-
-            <b>Name :</b>
-
-            {order.name}
-
-            </p>
-
-
-
-
-
-
-            <p>
-
-            <b>Email :</b>
-
-            {order.email}
-
-            </p>
-
-
-
-
-
-
-            <p>
-
-            <b>Mobile :</b>
-
-            {order.mobile}
-
-            </p>
-
-
-
-
-
-
-
-
-            <h3>
-
-            📍 Delivery Address
-
-            </h3>
-
-
-
-
-
-            <p>
-
-            {order.address}
-
-            </p>
-
-
-
-
-
-
-
-
-            <h3>
-
-            🛒 Products
-
-            </h3>
-
-
-
-
-
-
-
-            <div className="order-products">
-
-
-            {
-
-
-            order.items && order.items.length > 0 ?
-
-
-
-            order.items.map((item,index)=>(
-
-
-
-              <div
-
-              className="order-product"
-
-              key={index}
-
-              >
-
-
-
-
-
-                <img
-
-                src={item.image}
-
-                alt={item.name}
-
-                />
-
-
-
-
-
-
-                <div>
-
-
-
-                <h4>
-
-                {item.name}
-
-                </h4>
-
-
-
-
-
-                <p>
-
-                Price : ₹{item.price}
-
-                </p>
-
-
-
-
-
-                <p>
-
-                Quantity :
-
-                {item.quantity}
-
-                </p>
-
-
-
-
-
-                <p>
-
-                <b>Status :</b>
-
-
-                <span className="status">
-
-                {order.status}
-
-                </span>
-
-
-                </p>
-
-
-
-
-
-                </div>
-
-
-
-
-
-              </div>
-
-
-
-            ))
-
-
-
-            :
-
-
-
-            (
-
-              <p>
-
-              No Products Found
-
-              </p>
-
-            )
-
-
+                setOrders(myOrders);
 
             }
 
+            catch (error) {
 
+                console.log(error);
+
+            }
+
+        };
+
+        fetchOrders();
+
+    }, []);
+    return (
+
+        <>
+
+            <div className="orders-page">
+
+                <h1 className="orders-title">
+                    🧾 My Orders
+                </h1>
+
+                {
+                    orders.length === 0 ?
+
+                        (
+
+                            <h2>No Orders Found</h2>
+
+                        )
+
+                        :
+
+                        (
+
+                            orders.map((order) => (
+
+                                <div
+                                    className="order-card"
+                                    key={order.id}
+                                >
+
+                                    <div className="order-header">
+
+                                        <div>
+
+                                            <h3 className="order-id">
+                                                🧾 Order ID : {order.id}
+                                            </h3>
+
+                                            <p className="order-date">
+                                                📅 Date : {order.date}
+                                            </p>
+
+                                        </div>
+
+                                        <span className="status">
+                                            🚚 {order.status || "Order Confirmed"}
+                                        </span>
+
+                                    </div>
+
+                                    <div className="order-details">
+
+                                        <div className="section">
+
+                                            <h3>👤 Customer Details</h3>
+
+                                            <p>Name : {order.name}</p>
+
+                                            <p>Email : {order.email}</p>
+
+                                            <p>Mobile : {order.mobile}</p>
+
+                                        </div>
+
+                                        <div className="section">
+
+                                            <h3>📍 Delivery Address</h3>
+
+                                            <p>{order.address}</p>
+
+                                        </div>
+
+                                    </div>
+
+                                    <div className="section product-section">
+
+                                        <h3>🛒 Products</h3>
+
+                                        {
+                                            order.items?.map((item) => (
+
+                                                <div
+                                                    className="product-item"
+                                                    key={item.id}
+                                                >
+
+                                                    <span>{item.name}</span>
+
+                                                    <span>
+                                                        ₹{item.price}
+                                                        <br />
+                                                        Qty : {item.quantity}
+                                                    </span>
+
+                                                </div>
+
+                                            ))
+                                        }
+
+                                    </div>
+
+                                    <h2 className="total">
+                                        💰 Total : ₹{order.total}
+                                    </h2>
+                                    <div className="order-actions">
+
+                                        <button
+                                            type="button"
+                                            className="track-btn"
+                                            onClick={() => trackOrder(order)}
+                                        >
+                                            🚚 Track Order
+                                        </button>
+
+                                        <button
+                                            type="button"
+                                            className="cancel-btn"
+                                            onClick={() => cancelOrder(order.id)}
+                                        >
+                                            ❌ Cancel Order
+                                        </button>
+
+                                    </div>
+
+                                </div>
+
+                            ))
+
+                        )
+
+                }
 
             </div>
 
+            <Footer />
 
+        </>
 
-
-
-            </div>
-
-
-
-
-
-          </div>
-
-
-
-        ))
-
-
-
-      }
-
-
-
-
-
-    </div>
-
-
-
-
-    <Footer />
-
-
-
-    </>
-
-
-  );
-
+    );
 
 }
-
-
 
 export default Orders;
