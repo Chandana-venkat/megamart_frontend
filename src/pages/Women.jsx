@@ -35,7 +35,9 @@ function Women() {
 
   useEffect(() => {
 
-    API.get("/products?category=Women")
+    // API.get("/products?category=Women")
+
+    API.get("/products/category/Women")
       .then((res) => {
 
         setProducts(res.data);

@@ -12,7 +12,7 @@ function ViewProduct() {
         getProducts();
     }, []);
 
-    // GET ALL PRODUCTS
+   
     const getProducts = () => {
         API.get("/products")
             .then((res) => {
@@ -23,7 +23,7 @@ function ViewProduct() {
             });
     };
 
-    // DELETE PRODUCT
+   
     const deleteProduct = (id) => {
         const confirmDelete = window.confirm("Delete this product?");
 

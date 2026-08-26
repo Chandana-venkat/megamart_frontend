@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-
 import "../styles/Login.css";
 import API from "../services/api";
 
@@ -19,26 +18,22 @@ function Login() {
 
     const { name, value } = e.target;
 
-    setData({
-      ...data,
+    setData((prev) => ({
+      ...prev,
       [name]: value
-    });
+    }));
 
     let error = "";
 
     if (name === "email") {
 
       if (value.trim() === "") {
-
         error = "Email is required";
-
       }
       else if (
         !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)
       ) {
-
         error = "Enter valid email";
-
       }
 
     }
@@ -46,144 +41,155 @@ function Login() {
     if (name === "password") {
 
       if (value.trim() === "") {
-
         error = "Password is required";
-
       }
       else if (value.length < 6) {
-
         error = "Minimum 6 characters required";
-
       }
 
     }
 
-    setErrors({
-      ...errors,
+    setErrors((prev) => ({
+      ...prev,
       [name]: error
-    });
+    }));
 
   };
+
 
   const handleLogin = async (e) => {
 
     e.preventDefault();
 
-    let newErrors = {};
+    const newErrors = {};
 
     if (data.email.trim() === "") {
-
       newErrors.email = "Email is required";
-
     }
 
     if (data.password.trim() === "") {
-
       newErrors.password = "Password is required";
-
     }
 
     setErrors(newErrors);
 
     if (Object.keys(newErrors).length > 0) {
-
       return;
-
     }
 
     try {
 
-      // Get all users from backend
-
-      const response = await API.get("/users");
-
-      const users = response.data;
-
-      console.log("Users:", users);
-
-      const loggedUser = users.find(
-        (user) =>
-          user.email === data.email.trim() &&
-          user.password === data.password.trim()
+      const response = await API.post(
+        `/users/login?email=${encodeURIComponent(
+          data.email.trim()
+        )}&password=${encodeURIComponent(
+          data.password.trim()
+        )}`
       );
-if (loggedUser) {
 
-  localStorage.setItem(
-    "currentUser",
-    JSON.stringify(loggedUser)
-  );
+      const loggedUser = response.data;
 
-  localStorage.setItem(
-    "token",
-    loggedUser.token
-  );
+      console.log("Logged User:", loggedUser);
 
-  alert("Login Successful 🎉");
+      localStorage.setItem(
+        "currentUser",
+        JSON.stringify(loggedUser)
+      );
 
-  navigate("/");
+      alert("Login Successful 🎉");
 
-}
-else {
-
-  alert("Invalid Email Or Password");
-
-}
+      navigate("/");
 
     }
     catch (error) {
 
-      console.log(error);
+      console.log("Login Error:", error);
 
-      alert("Server Error");
+      if (
+        error.response &&
+        error.response.status === 401
+      ) {
+        alert("Invalid Email Or Password");
+      }
+      else {
+        alert("Server Error");
+      }
 
     }
 
   };
 
+
   return (
+    <div className="login-page">
 
-    <div className="login-container">
+      <div className="login-box">
 
-      <h1>Login</h1>
+        {/* LEFT - SHOPPING BAG */}
+        <div className="bag-section">
 
-      <form onSubmit={handleLogin}>
+          <div className="shopping-bag">
+            🛍️
+          </div>
 
-        <input
-          type="email"
-          name="email"
-          placeholder="Enter Email"
-          value={data.email}
-          onChange={handleChange}
-        />
+        </div>
 
-        <p className="error">
-          {errors.email}
-        </p>
 
-        <input
-          type="password"
-          name="password"
-          placeholder="Enter Password"
-          value={data.password}
-          onChange={handleChange}
-        />
+        {/* RIGHT - LOGIN FORM */}
+        <div className="form-section">
 
-        <p className="error">
-          {errors.password}
-        </p>
+          <h1>Login</h1>
 
-        <button type="submit">
+          <form onSubmit={handleLogin}>
 
-          Login
+            <input
+              type="email"
+              name="email"
+              placeholder="Enter Email"
+              value={data.email}
+              onChange={handleChange}
+            />
 
-        </button>
+            <p className="error">
+              {errors.email}
+            </p>
 
-      </form>
+
+            <input
+              type="password"
+              name="password"
+              placeholder="Enter Password"
+              value={data.password}
+              onChange={handleChange}
+            />
+
+            <p className="error">
+              {errors.password}
+            </p>
+
+
+            <div className="forgot-password-link">
+              <button
+                type="button"
+                onClick={() => navigate("/forgot-password")}
+              >
+                Forgot Password?
+              </button>
+            </div>
+
+
+            <button type="submit">
+              Login
+            </button>
+
+          </form>
+
+        </div>
+
+      </div>
 
     </div>
-
   );
-
 }
 
 export default Login;

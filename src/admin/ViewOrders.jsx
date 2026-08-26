@@ -10,124 +10,404 @@ function ViewOrders() {
     loadOrders();
   }, []);
 
-  // GET ALL ORDERS
   const loadOrders = async () => {
     try {
+      setLoading(true);
+
       const response = await API.get("/orders");
-      setOrders(response.data);
+
+      setOrders(response.data || []);
     } catch (error) {
-      console.log(error);
-      alert("Failed to load orders");
+      console.error("Error loading orders:", error);
+
+      
+      const savedOrders =
+        JSON.parse(localStorage.getItem("orders")) || [];
+
+      setOrders(savedOrders);
     } finally {
       setLoading(false);
     }
   };
 
-  // UPDATE STATUS
+
   const updateStatus = async (id, status) => {
     try {
-      await API.patch(`/orders/${id}`, {
+      await API.put(`/ orders / ${id} `, {
         status: status,
       });
 
-      alert("Order Status Updated");
-      loadOrders();
+      setOrders((prevOrders) =>
+        prevOrders.map((order) =>
+          order.id === id
+            ? { ...order, status: status }
+            : order
+        )
+      );
     } catch (error) {
-      console.log(error);
-      alert("Status update failed");
+      console.error("Error updating order:", error);
+
+    
+      const savedOrders =
+        JSON.parse(localStorage.getItem("orders")) || [];
+
+      const updatedOrders = savedOrders.map((order) =>
+        order.id === id
+          ? { ...order, status: status }
+          : order
+      );
+
+      localStorage.setItem(
+        "orders",
+        JSON.stringify(updatedOrders)
+      );
+
+      setOrders(updatedOrders);
     }
   };
 
-  // DELETE ORDER
+ 
+
   const deleteOrder = async (id) => {
     const confirmDelete = window.confirm(
       "Are you sure you want to delete this order?"
     );
 
-    if (!confirmDelete) return;
+    if (!confirmDelete) {
+      return;
+    }
 
     try {
-      await API.delete(`/orders/${id}`);
-      alert("Order Deleted Successfully");
-      loadOrders();
+      await API.delete(`/ orders / ${id} `);
+
+      setOrders((prevOrders) =>
+        prevOrders.filter((order) => order.id !== id)
+      );
     } catch (error) {
-      console.log(error);
-      alert("Delete failed");
+      console.error("Error deleting order:", error);
+
+      
+      const savedOrders =
+        JSON.parse(localStorage.getItem("orders")) || [];
+
+      const updatedOrders = savedOrders.filter(
+        (order) => order.id !== id
+      );
+
+      localStorage.setItem(
+        "orders",
+        JSON.stringify(updatedOrders)
+      );
+
+      setOrders(updatedOrders);
     }
   };
 
+
+  if (loading) {
+    return (
+      <div className="view-orders-container">
+        <h2>View Orders</h2>
+
+        <p className="loading-text">
+          Loading orders...
+        </p>
+      </div>
+    );
+  }
+
+
   return (
-    <div className="orders-page">
-      <h1>🛒 Customer Orders</h1>
+    <div className="view-orders-container">
 
-      <h3>Total Orders : {orders.length}</h3>
+     
+      <div className="orders-header">
+        <h2>View Orders</h2>
 
-      {loading ? (
-        <h2>Loading Orders...</h2>
+        <span className="total-orders">
+          Total Orders: {orders.length}
+        </span>
+      </div>
+
+     
+      {orders.length === 0 ? (
+        <div className="no-orders">
+          <h3>No Orders Found</h3>
+          <p>
+            There are currently no customer orders.
+          </p>
+        </div>
       ) : (
-        <table className="orders-table">
-          <thead>
-            <tr>
-              <th>Customer</th>
-              <th>Email</th>
-              <th>Address</th>
-              <th>Total</th>
-              <th>Items</th>
-              <th>Status</th>
-              <th>Delete</th>
-            </tr>
-          </thead>
+        <div className="orders-table-container">
 
-          <tbody>
-            {orders.length === 0 ? (
+          <table className="orders-table">
+
+           
+            <thead>
               <tr>
-                <td colSpan="7">No Orders Found</td>
+                <th>#</th>
+                <th>Customer</th>
+                <th>Email</th>
+                <th>Phone</th>
+                <th>Shipping Address</th>
+                <th>Products</th>
+                <th>Total</th>
+                <th>Status</th>
+                <th>Action</th>
               </tr>
-            ) : (
-              orders.map((order) => (
-                <tr key={order.id}>
-                  <td>{order.name}</td>
-                  <td>{order.email}</td>
-                  <td>{order.address}</td>
-                  <td>₹ {order.total}</td>
-                  <td>{order.items?.length || 0}</td>
+            </thead>
+
+           
+            <tbody>
+
+              {orders.map((order, index) => (
+
+                <tr key={order.id || index}>
+
+                 
+                  <td>
+                    {index + 1}
+                  </td>
+
+                
+                  <td>
+                    <strong>
+                      {order.customer?.name ||
+                        order.fullName ||
+                        order.name ||
+                        "N/A"}
+                    </strong>
+                  </td>
+
+                 
+                  <td>
+                    {order.customer?.email ||
+                      order.email ||
+                      "N/A"}
+                  </td>
+
+                
+                  <td>
+                    {order.customer?.phone ||
+                      order.phone ||
+                      "N/A"}
+                  </td>
 
                   <td>
+
+                    {order.customer?.address ? (
+                      <div className="shipping-address">
+
+                        <span>
+                          {order.customer.address}
+                        </span>
+
+                      </div>
+                    ) : (
+                      <div className="shipping-address">
+
+                        {order.street && (
+                          <span>
+                            {order.street}
+                          </span>
+                        )}
+
+                        {order.state && (
+                          <span>
+                            {order.state}
+                          </span>
+                        )}
+
+                        {order.pincode && (
+                          <span>
+                            Pincode: {order.pincode}
+                          </span>
+                        )}
+
+                        {!order.street &&
+                          !order.state &&
+                          !order.pincode && (
+                            <span>
+                              No Address
+                            </span>
+                          )}
+
+                      </div>
+                    )}
+
+                  </td>
+
+                
+
+                  <td>
+
+                    {order.items &&
+                      order.items.length > 0 ? (
+
+                      <div className="order-items">
+
+                       
+                        <strong className="items-count">
+                          {order.items.length} item(s)
+                        </strong>
+
+                       
+                        {order.items.map(
+                          (item, itemIndex) => (
+
+                            <div
+                              className="order-item"
+                              key={
+                                item.id ||
+                                item.productId ||
+                                itemIndex
+                              }
+                            >
+
+                           
+                              <div className="order-product-image">
+
+                                <img
+                                  src={item.image}
+                                  alt={
+                                    item.productName ||
+                                    item.name ||
+                                    "Product"
+                                  }
+                                  onError={(e) => {
+                                    e.target.style.display =
+                                      "none";
+                                  }}
+                                />
+
+                              </div>
+
+                             
+                              <div className="order-product-details">
+
+                                <strong>
+                                  {item.productName ||
+                                    item.name ||
+                                    "Unknown Product"}
+                                </strong>
+
+                                <span>
+                                  Quantity:{" "}
+                                  {item.quantity || 1}
+                                </span>
+
+                                {item.price !==
+                                  undefined &&
+                                  item.price !== null && (
+                                    <span>
+                                      ₹ {item.price}
+                                    </span>
+                                  )}
+
+                              </div>
+
+                            </div>
+
+                          )
+                        )}
+
+                      </div>
+
+                    ) : (
+
+                      <span className="no-items">
+                        No Items
+                      </span>
+
+                    )}
+
+                  </td>
+
+                
+                  <td>
+
+                    <strong className="order-total">
+
+                      ₹{" "}
+                      {order.total ||
+                        order.totalAmount ||
+                        0}
+
+                    </strong>
+
+                  </td>
+
+                 
+                  <td>
+
                     <select
-                      value={order.status || "Order Confirmed"}
+                      className={`status - select ${order.status
+                        ? order.status.toLowerCase()
+                        : "pending"
+                        } `}
+                      value={
+                        order.status || "Pending"
+                      }
                       onChange={(e) =>
-                        updateStatus(order.id, e.target.value)
+                        updateStatus(
+                          order.id,
+                          e.target.value
+                        )
                       }
                     >
-                      <option value="Order Confirmed">
-                        Order Confirmed
+
+                      <option value="Pending">
+                        Pending
                       </option>
-                      <option value="Packed">Packed</option>
-                      <option value="Shipped">Shipped</option>
-                      <option value="Out for Delivery">
-                        Out for Delivery
+
+                      <option value="Processing">
+                        Processing
                       </option>
-                      <option value="Delivered">Delivered</option>
-                      <option value="Cancelled">Cancelled</option>
+
+                      <option value="Shipped">
+                        Shipped
+                      </option>
+
+                      <option value="Delivered">
+                        Delivered
+                      </option>
+
+                      <option value="Cancelled">
+                        Cancelled
+                      </option>
+
                     </select>
+
                   </td>
 
+                 
                   <td>
+
                     <button
-                      className="delete-btn"
-                      onClick={() => deleteOrder(order.id)}
+                      className="delete-order-btn"
+                      onClick={() =>
+                        deleteOrder(order.id)
+                      }
                     >
-                      🗑 Delete
+                      Delete
                     </button>
+
                   </td>
+
                 </tr>
-              ))
-            )}
-          </tbody>
-        </table>
+
+              ))}
+
+            </tbody>
+
+          </table>
+
+        </div>
       )}
+
     </div>
   );
 }
 
 export default ViewOrders;
+

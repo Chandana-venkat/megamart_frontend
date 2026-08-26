@@ -23,6 +23,7 @@ import Beauty from "./pages/Beauty";
 import Genz from "./pages/GenZ";
 import OrderSuccess from "./pages/OrderSuccess";
 import Footer from "./components/Footer";
+import ForgotPassword from "./pages/ForgotPassword";
 
 // Protected Route
 import UserProtectedRoute from "./components/UserProtectedRoute";
@@ -239,6 +240,10 @@ return (
               <ViewOrders />
             </ProtectedRoute>
           }
+        />
+        <Route
+            path="/forgot-password"
+            element={<ForgotPassword />}
         />
 
        </Routes>

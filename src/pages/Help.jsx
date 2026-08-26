@@ -1,101 +1,292 @@
-
+import { useState } from "react";
 import Footer from "../components/Footer";
 import "../styles/Help.css";
 
 function Help() {
 
+  const [open, setOpen] = useState(null);
+  const [search, setSearch] = useState("");
+
+  const toggleFAQ = (index) => {
+    setOpen(open === index ? null : index);
+  };
+
+  const faqs = [
+    {
+      category: "Orders",
+      icon: "📦",
+      question: "How can I place an order?",
+      answer: (
+        <>
+          Select a product, click <b>Buy Now</b> or <b>Add To Cart</b>,
+          enter your delivery address, choose a payment method and click
+          <b> Place Order</b>.
+        </>
+      )
+    },
+    {
+      category: "Payments",
+      icon: "💳",
+      question: "Which payment methods are available?",
+      answer: (
+        <ul>
+          <li>Cash on Delivery (COD)</li>
+          <li>UPI</li>
+          <li>Credit Card</li>
+          <li>Debit Card</li>
+        </ul>
+      )
+    },
+    {
+      category: "Delivery",
+      icon: "🚚",
+      question: "How long does delivery take?",
+      answer: (
+        <>
+          Orders are usually delivered within <b>3 - 7 business days.</b>
+          <br />
+          You can track your order from the <b>My Orders</b> page.
+        </>
+      )
+    },
+    {
+      category: "Returns",
+      icon: "↩️",
+      question: "What is the return policy?",
+      answer: (
+        <>
+          Products can be returned within <b>7 days</b> if eligible.
+          Refunds are generally processed within <b>5-7 working days.</b>
+        </>
+      )
+    },
+    {
+      category: "Account",
+      icon: "👤",
+      question: "How can I reset my password?",
+      answer: (
+        <>
+          Go to the Login page and select <b>Forgot Password</b>.
+          Enter your registered email and create a new password.
+        </>
+      )
+    }
+  ];
+
+  const filteredFAQs = faqs.filter((faq) =>
+    `${faq.category} ${faq.question} ${faq.answer}`
+      .toString()
+      .toLowerCase()
+      .includes(search.toLowerCase())
+  );
+
   return (
     <>
-      
+      <div className="help-page">
 
-      <div className="help-container">
+        <section className="help-hero">
 
-        <h1>🛟 Help Center</h1>
+          <div className="help-hero-content">
 
-        <p className="help-text">
-          Welcome to MegaMart Customer Support.
-          We're here to help you with your orders,
-          payments, returns and account issues.
-        </p>
+            <div className="help-badge">
+              🛟 MegaMart Support
+            </div>
 
-        <div className="help-card">
+            <h1>
+              How can we help you?
+            </h1>
 
-          <h2>📦 Orders</h2>
+            <p>
+              Find quick answers to your questions about
+              orders, payments, delivery and more.
+            </p>
 
-          <p><b>Q:</b> How can I place an order?</p>
-          <p>
-            <b>A:</b> Select a product, click
-            <b> Buy Now</b> or
-            <b> Add To Cart</b>, enter your delivery
-            address, choose a payment method and
-            click <b>Place Order</b>.
-          </p>
+            <div className="help-search">
 
-        </div>
+              <span>🔍</span>
 
-        <div className="help-card">
+              <input
+                type="text"
+                placeholder="Search for help..."
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
+              />
 
-          <h2>💳 Payments</h2>
+            </div>
 
-          <p><b>Q:</b> Which payment methods are available?</p>
+          </div>
 
-          <ul>
-            <li>Cash on Delivery (COD)</li>
-            <li>UPI</li>
-            <li>Credit Card</li>
-            <li>Debit Card</li>
-          </ul>
+        </section>
 
-        </div>
 
-        <div className="help-card">
+        <section className="help-categories">
 
-          <h2>🚚 Delivery</h2>
+          <div className="category-card">
+            <div className="category-icon">📦</div>
+            <h3>Orders</h3>
+            <p>Place and manage your orders</p>
+          </div>
 
-          <p>
-            Orders are usually delivered within
-            <b> 3 - 7 business days.</b>
-          </p>
+          <div className="category-card">
+            <div className="category-icon">💳</div>
+            <h3>Payments</h3>
+            <p>Payment and checkout help</p>
+          </div>
 
-          <p>
-            You can track your order from the
-            <b> My Orders </b> page.
-          </p>
+          <div className="category-card">
+            <div className="category-icon">🚚</div>
+            <h3>Delivery</h3>
+            <p>Track your orders and delivery</p>
+          </div>
 
-        </div>
+          <div className="category-card">
+            <div className="category-icon">↩️</div>
+            <h3>Returns</h3>
+            <p>Returns and refunds information</p>
+          </div>
 
-        <div className="help-card">
+        </section>
 
-          <h2>↩ Returns & Refunds</h2>
 
-          <p>
-            Products can be returned within
-            <b> 7 days </b>
-            if eligible.
-          </p>
+        <section className="faq-section">
 
-          <p>
-            Refunds are processed within
-            <b> 5-7 working days.</b>
-          </p>
+          <div className="faq-heading">
 
-        </div>
+            <span>FAQ</span>
 
-        <div className="help-card">
+            <h2>
+              Frequently Asked Questions
+            </h2>
 
-          <h2>📞 Contact Us</h2>
+            <p>
+              Everything you need to know about MegaMart
+            </p>
 
-          <p><b>Email:</b> support@megamart.com</p>
+          </div>
 
-          <p><b>Phone:</b> +91 9876543210</p>
 
-          <p><b>Working Hours:</b> 9:00 AM - 8:00 PM</p>
+          <div className="faq-container">
 
-        </div>
+            {filteredFAQs.length > 0 ? (
+
+              filteredFAQs.map((faq, index) => (
+
+                <div
+                  className={`faq-card ${open === index ? "faq-active" : ""
+                    }`}
+                  key={index}
+                >
+
+                  <button
+                    className="faq-question"
+                    onClick={() => toggleFAQ(index)}
+                  >
+
+                    <div className="question-left">
+
+                      <span className="faq-icon">
+                        {faq.icon}
+                      </span>
+
+                      <div>
+
+                        <small>
+                          {faq.category}
+                        </small>
+
+                        <h3>
+                          {faq.question}
+                        </h3>
+
+                      </div>
+
+                    </div>
+
+                    <span className="faq-plus">
+                      {open === index ? "−" : "+"}
+                    </span>
+
+                  </button>
+
+
+                  {open === index && (
+
+                    <div className="faq-answer">
+
+                      {faq.answer}
+
+                    </div>
+
+                  )}
+
+                </div>
+
+              ))
+
+            ) : (
+
+              <div className="no-results">
+
+                <span>🔍</span>
+
+                <h3>No results found</h3>
+
+                <p>
+                  Try searching with a different keyword.
+                </p>
+
+              </div>
+
+            )}
+
+          </div>
+
+        </section>
+
+        <section className="support-section">
+
+          <div className="support-content">
+
+            <div className="support-icon">
+              💬
+            </div>
+
+            <div>
+
+              <h2>
+                Still need help?
+              </h2>
+
+              <p>
+                Our customer support team is ready to help you.
+              </p>
+
+              <div className="support-details">
+
+                <span>📧 support@megamart.com</span>
+
+                <span>📞 +91 9876543210</span>
+
+                <span>🕘 9:00 AM - 8:00 PM</span>
+
+              </div>
+
+            </div>
+
+          </div>
+
+          <a
+            href="/contact"
+            className="contact-button"
+          >
+            Contact Us →
+          </a>
+
+        </section>
 
       </div>
 
-    
+      <Footer />
     </>
   );
 }

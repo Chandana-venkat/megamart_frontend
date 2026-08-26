@@ -1,98 +1,3 @@
-// import React, { useEffect, useState } from "react";
-// import { useNavigate } from "react-router-dom";
-// import ProductCard from "../components/ProductCard";
-// // import Nav from "../components/Nav";
-// import Footer from "../components/Footer";
-// import "../styles/Products.css";
-// function HomeLiving() {
-
-//   const [products, setProducts] = useState([]);
-
-//   const navigate = useNavigate();
-
-//   useEffect(() => {
-
-//     fetch("http://localhost:3000/products")
-
-//       .then((res) => res.json())
-
-//       .then((data) => {
-
-//         console.log(data);
-
-//         const homeProducts = data.filter(
-//           product => product.category === "Home"
-//         );
-
-//         setProducts(homeProducts);
-
-//       })
-
-//       .catch((err) => console.log(err));
-
-//   }, []);
-
-//   const addToCart = (product) => {
-
-//     const user =
-//       JSON.parse(localStorage.getItem("user"));
-
-//     if (!user) {
-
-//       alert("Please Login First");
-
-//       navigate("/login");
-
-//       return;
-
-//     }
-
-//     const cartKey = `cart_${user.email}`;
-
-//     let cart =
-//       JSON.parse(localStorage.getItem(cartKey)) || [];
-
-//     const exist =
-//       cart.find(item => item.id === product.id);
-
-//     if (exist) {
-
-//       exist.quantity += 1;
-
-//     } else {
-
-//       cart.push({
-
-//         ...product,
-
-//         quantity: 1
-
-//       });
-
-//     }
-
-//     localStorage.setItem(
-
-//       cartKey,
-
-//       JSON.stringify(cart)
-
-//     );
-
-//     localStorage.setItem(
-
-//       "cart",
-
-//       JSON.stringify(cart)
-
-//     );
-
-//     alert("Added To Cart 🛒");
-
-//   };
-// }
-// export default HomeLiving;
-
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
@@ -111,7 +16,8 @@ function HomeLiving() {
 
   useEffect(() => {
 
-    API.get("/products?category=Home")
+    // API.get("/products?category=Home")
+    API.get("/products/category/Home")
 
       .then((res) => {
 
@@ -263,7 +169,7 @@ function HomeLiving() {
 
     <>
 
-      {/* <Nav /> */}
+    
 
       <div className="products-page">
 
@@ -281,39 +187,39 @@ function HomeLiving() {
 
               products.length === 0 ?
 
-              (
+                (
 
-                <h2>
+                  <h2>
 
-                  No Home Living Products Found
+                    No Home Living Products Found
 
-                </h2>
+                  </h2>
 
-              )
+                )
 
-              :
+                :
 
-              (
+                (
 
-                products.map((product) => (
+                  products.map((product) => (
 
-                  <ProductCard
+                    <ProductCard
 
-                    key={product.id}
+                      key={product.id}
 
-                    product={product}
+                      product={product}
 
-                    onAddToCart={addToCart}
+                      onAddToCart={addToCart}
 
-                    onAddToWishlist={addToWishlist}
+                      onAddToWishlist={addToWishlist}
 
-                    onBuyNow={buyNow}
+                      onBuyNow={buyNow}
 
-                  />
+                    />
 
-                ))
+                  ))
 
-              )
+                )
 
             }
 

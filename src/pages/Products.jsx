@@ -28,7 +28,7 @@ function Products({ search = "" }) {
 
   }, []);
 
-  // Search + Category Filter
+ 
 
   const filteredProducts = products.filter((product) => {
 

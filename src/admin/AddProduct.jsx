@@ -49,15 +49,18 @@ function AddProduct() {
 
                 break;
 
+
             case "brand":
 
                 if (value.trim().length < 2) {
 
-                    error = "Brand name must contain at least 2 characters";
+                    error =
+                        "Brand name must contain at least 2 characters";
 
                 }
 
                 break;
+
 
             case "category":
 
@@ -69,15 +72,18 @@ function AddProduct() {
 
                 break;
 
+
             case "price":
 
                 if (Number(value) <= 0) {
 
-                    error = "Price must be greater than 0";
+                    error =
+                        "Price must be greater than 0";
 
                 }
 
                 break;
+
 
             case "image":
 
@@ -85,61 +91,70 @@ function AddProduct() {
 
                     new URL(value);
 
-                }
+                } catch {
 
-                catch {
-
-                    error = "Enter Valid Image URL";
+                    error =
+                        "Enter Valid Image URL";
 
                 }
 
                 break;
+
 
             case "description":
 
                 if (value.trim().length < 10) {
 
-                    error = "Description should contain minimum 10 characters";
+                    error =
+                        "Description should contain minimum 10 characters";
 
                 }
 
                 break;
+
 
             case "rating":
 
-                if (value < 1 || value > 5) {
+                if (Number(value) < 1 || Number(value) > 5) {
 
-                    error = "Rating must be between 1 and 5";
+                    error =
+                        "Rating must be between 1 and 5";
 
                 }
 
                 break;
+
 
             case "reviews":
 
-                if (value < 0) {
+                if (Number(value) < 0) {
 
-                    error = "Reviews cannot be negative";
+                    error =
+                        "Reviews cannot be negative";
 
                 }
 
                 break;
+
 
             case "purchased":
 
-                if (value < 0) {
+                if (value.trim().length === 0) {
 
-                    error = "Purchased count cannot be negative";
+                    error =
+                        "Purchased information is required";
 
                 }
 
                 break;
+
 
             default:
 
                 break;
 
         }
+
 
         setErrors({
 
@@ -151,17 +166,114 @@ function AddProduct() {
 
     };
 
+
+
+    const validateProduct = () => {
+
+        const newErrors = {};
+
+
+        if (product.name.trim().length < 3) {
+
+            newErrors.name =
+                "Minimum 3 characters required";
+
+        }
+
+
+        if (product.brand.trim().length < 2) {
+
+            newErrors.brand =
+                "Brand name must contain at least 2 characters";
+
+        }
+
+
+        if (product.category === "") {
+
+            newErrors.category =
+                "Please Select Category";
+
+        }
+
+
+        if (Number(product.price) <= 0) {
+
+            newErrors.price =
+                "Price must be greater than 0";
+
+        }
+
+
+        try {
+
+            new URL(product.image);
+
+        } catch {
+
+            newErrors.image =
+                "Enter Valid Image URL";
+
+        }
+
+
+        if (product.description.trim().length < 10) {
+
+            newErrors.description =
+                "Description should contain minimum 10 characters";
+
+        }
+
+
+        if (
+            Number(product.rating) < 1 ||
+            Number(product.rating) > 5
+        ) {
+
+            newErrors.rating =
+                "Rating must be between 1 and 5";
+
+        }
+
+
+        if (Number(product.reviews) < 0) {
+
+            newErrors.reviews =
+                "Reviews cannot be negative";
+
+        }
+
+
+        if (product.purchased.trim().length === 0) {
+
+            newErrors.purchased =
+                "Purchased information is required";
+
+        }
+
+
+        setErrors(newErrors);
+
+        return Object.keys(newErrors).length === 0;
+
+    };
+
     const saveProduct = async (e) => {
 
         e.preventDefault();
 
-        if (Object.values(errors).some((err) => err !== "")) {
+
+        const isValid = validateProduct();
+
+
+        if (!isValid) {
 
             alert("Please Fix All Validation Errors");
 
             return;
 
         }
+
 
         try {
 
@@ -171,9 +283,7 @@ function AddProduct() {
 
             navigate("/admin/view-products");
 
-        }
-
-        catch (err) {
+        } catch (err) {
 
             console.log(err);
 
@@ -182,181 +292,252 @@ function AddProduct() {
         }
 
     };
-    return (
 
-    <div className="admin-page">
+return (
 
-        <div className="admin-form">
+        <div className="admin-page">
 
-            <h1>Add Product</h1>
+            <div className="admin-form">
 
-            <form onSubmit={saveProduct}>
+                <h1>Add Product</h1>
 
-                <input
-                    type="text"
-                    name="name"
-                    placeholder="Product Name"
-                    value={product.name}
-                    onChange={handleChange}
-                />
 
-                {errors.name && (
-                    <p className="error">{errors.name}</p>
-                )}
+                <form onSubmit={saveProduct}>
 
-                <input
-                    type="text"
-                    name="brand"
-                    placeholder="Brand"
-                    value={product.brand}
-                    onChange={handleChange}
-                />
 
-                {errors.brand && (
-                    <p className="error">{errors.brand}</p>
-                )}
+                
 
-                <select
-                    name="category"
-                    value={product.category}
-                    onChange={handleChange}
-                >
-
-                    <option value="">
-                        Select Category
-                    </option>
-
-                    <option value="Men">
-                        Men
-                    </option>
-
-                    <option value="Women">
-                        Women
-                    </option>
-
-                    <option value="Kids">
-                        Kids
-                    </option>
-
-                    <option value="Beauty">
-                        Beauty
-                    </option>
-
-                    <option value="GenZ">
-                        GenZ
-                    </option>
-
-                    <option value="Home Living">
-                        Home Living
-                    </option>
-
-                </select>
-
-                {errors.category && (
-                    <p className="error">{errors.category}</p>
-                )}
-
-                <input
-                    type="number"
-                    name="price"
-                    placeholder="Price"
-                    value={product.price}
-                    onChange={handleChange}
-                />
-
-                {errors.price && (
-                    <p className="error">{errors.price}</p>
-                )}
-
-                <input
-                    type="text"
-                    name="image"
-                    placeholder="Image URL"
-                    value={product.image}
-                    onChange={handleChange}
-                />
-
-                {errors.image && (
-                    <p className="error">{errors.image}</p>
-                )}
-
-                {
-
-                    product.image &&
-
-                    !errors.image &&
-
-                    <img
-                        src={product.image}
-                        alt="Preview"
-                        className="preview-image"
+                    <input
+                        type="text"
+                        name="name"
+                        placeholder="Product Name"
+                        value={product.name}
+                        onChange={handleChange}
                     />
 
-                }
+                    {errors.name && (
 
-                <textarea
-                    name="description"
-                    rows="4"
-                    placeholder="Description"
-                    value={product.description}
-                    onChange={handleChange}
-                />
+                        <p className="error">
+                            {errors.name}
+                        </p>
 
-                {errors.description && (
-                    <p className="error">{errors.description}</p>
-                )}
+                    )}
 
-                <input
-                    type="number"
-                    name="rating"
-                    placeholder="Rating"
-                    step="0.1"
-                    value={product.rating}
-                    onChange={handleChange}
-                />
 
-                {errors.rating && (
-                    <p className="error">{errors.rating}</p>
-                )}
+                 
 
-                <input
-                    type="number"
-                    name="reviews"
-                    placeholder="Reviews"
-                    value={product.reviews}
-                    onChange={handleChange}
-                />
+                    <input
+                        type="text"
+                        name="brand"
+                        placeholder="Brand"
+                        value={product.brand}
+                        onChange={handleChange}
+                    />
 
-                {errors.reviews && (
-                    <p className="error">{errors.reviews}</p>
-                )}
+                    {errors.brand && (
 
-                <input
-                    type="number"
-                    name="purchased"
-                    placeholder="Purchased Count"
-                    value={product.purchased}
-                    onChange={handleChange}
-                />
+                        <p className="error">
+                            {errors.brand}
+                        </p>
 
-                {errors.purchased && (
-                    <p className="error">{errors.purchased}</p>
-                )}
+                    )}
 
-                <button type="submit">
 
-                    ➕ Add Product
+                 
 
-                </button>
+                    <select
+                        name="category"
+                        value={product.category}
+                        onChange={handleChange}
+                    >
 
-            </form>
+                        <option value="">
+                            Select Category
+                        </option>
+
+                        <option value="Men">
+                            Men
+                        </option>
+
+                        <option value="Women">
+                            Women
+                        </option>
+
+                        <option value="Kids">
+                            Kids
+                        </option>
+
+                        <option value="Beauty">
+                            Beauty
+                        </option>
+
+                        <option value="GenZ">
+                            GenZ
+                        </option>
+
+                        <option value="Home Living">
+                            Home Living
+                        </option>
+
+                    </select>
+
+                    {errors.category && (
+
+                        <p className="error">
+                            {errors.category}
+                        </p>
+
+                    )}
+
+
+                    {/* Price */}
+
+                    <input
+                        type="number"
+                        name="price"
+                        placeholder="Price"
+                        value={product.price}
+                        onChange={handleChange}
+                    />
+
+                    {errors.price && (
+
+                        <p className="error">
+                            {errors.price}
+                        </p>
+
+                    )}
+
+
+                    {/* Image */}
+
+                    <input
+                        type="text"
+                        name="image"
+                        placeholder="Image URL"
+                        value={product.image}
+                        onChange={handleChange}
+                    />
+
+                    {errors.image && (
+
+                        <p className="error">
+                            {errors.image}
+                        </p>
+
+                    )}
+
+
+                    {/* Image Preview */}
+
+                    {
+
+                        product.image &&
+                        !errors.image &&
+
+                        <img
+                            src={product.image}
+                            alt="Preview"
+                            className="preview-image"
+                        />
+
+                    }
+
+
+                  
+
+                    <textarea
+                        name="description"
+                        rows="4"
+                        placeholder="Description"
+                        value={product.description}
+                        onChange={handleChange}
+                    />
+
+                    {errors.description && (
+
+                        <p className="error">
+                            {errors.description}
+                        </p>
+
+                    )}
+
+
+               
+
+                    <input
+                        type="number"
+                        name="rating"
+                        placeholder="Rating"
+                        step="0.1"
+                        value={product.rating}
+                        onChange={handleChange}
+                    />
+
+                    {errors.rating && (
+
+                        <p className="error">
+                            {errors.rating}
+                        </p>
+
+                    )}
+
+
+                  
+
+                    <input
+                        type="number"
+                        name="reviews"
+                        placeholder="Reviews"
+                        value={product.reviews}
+                        onChange={handleChange}
+                    />
+
+                    {errors.reviews && (
+
+                        <p className="error">
+                            {errors.reviews}
+                        </p>
+
+                    )}
+
+
+                
+
+                    <input
+                        type="text"
+                        name="purchased"
+                        placeholder="Purchased Info"
+                        value={product.purchased}
+                        onChange={handleChange}
+                    />
+
+                    {errors.purchased && (
+
+                        <p className="error">
+                            {errors.purchased}
+                        </p>
+
+                    )}
+
+
+
+                    <button type="submit">
+
+                        ➕ Add Product
+
+                    </button>
+
+
+                </form>
+
+            </div>
 
         </div>
 
-    </div>
-
-);
+    );
 
 }
+
 
 export default AddProduct;

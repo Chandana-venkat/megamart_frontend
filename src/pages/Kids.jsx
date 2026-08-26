@@ -1,45 +1,46 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-// import Nav from "../components/Nav";
-import Footer from "../components/Footer";
+
 import ProductCard from "../components/ProductCard";
+import Footer from "../components/Footer";
 import API from "../services/api";
+
 import "../styles/Products.css";
+
 function Kids() {
- const navigate = useNavigate();
- const [products, setProducts] = useState([]);
 
-  // useEffect(() => {
+  const navigate = useNavigate();
 
-  //   fetch("http://localhost:3001/products")
-  //     .then(res => res.json())
-  //     .then(data => {
+  const [products, setProducts] = useState([]);
 
-  //       const kidsProducts = data.filter(product =>
 
-  //         product.category === "Kids"
+  // Get Kids Products
+  useEffect(() => {
 
-  //       );
+    // API.get("/products?category=Kids")
 
-  //       setProducts(kidsProducts);
+    API.get("/products/category/Kids")
+      .then((res) => {
 
-  //     })
-  //     .catch(err => console.log(err));
+        setProducts(res.data);
 
-  // }, []);
+      })
+      .catch((err) => {
 
-  // import API from "../services/api";
+        console.log(err);
 
-      useEffect(() => {
-        API.get("/products?category=Kids")
-          .then((res) => {
-            setProducts(res.data);
-          })
-          .catch((err) => console.log(err));
-      }, []);
+      });
 
-const addToCart = (product) => {
- const user = JSON.parse(localStorage.getItem("user"));
+  }, []);
+
+
+  // Add To Cart
+  const addToCart = (product) => {
+
+    const user = JSON.parse(
+      localStorage.getItem("user")
+    );
+
     if (!user) {
 
       alert("Please Login First");
@@ -47,15 +48,21 @@ const addToCart = (product) => {
       navigate("/login");
 
       return;
-
     }
-   const cartKey = `cart_${user.email}`;
+
+
+    const cartKey = `cart_${user.email}`;
 
     let cart =
-      JSON.parse(localStorage.getItem(cartKey)) || [];
+      JSON.parse(
+        localStorage.getItem(cartKey)
+      ) || [];
 
-    const exists =
-      cart.find(item => item.id === product.id);
+
+    const exists = cart.find(
+      item => item.id === product.id
+    );
+
 
     if (exists) {
 
@@ -73,28 +80,31 @@ const addToCart = (product) => {
 
     }
 
-    localStorage.setItem(
 
+    localStorage.setItem(
       cartKey,
-
       JSON.stringify(cart)
-
     );
+
 
     localStorage.setItem(
-
       "cart",
-
       JSON.stringify(cart)
-
     );
+
 
     alert("Added To Cart 🛒");
 
   };
-const addToWishlist = (product) => {
 
-    const user = JSON.parse(localStorage.getItem("user"));
+
+  // Add To Wishlist
+  const addToWishlist = (product) => {
+
+    const user = JSON.parse(
+      localStorage.getItem("user")
+    );
+
 
     if (!user) {
 
@@ -103,16 +113,23 @@ const addToWishlist = (product) => {
       navigate("/login");
 
       return;
-
     }
 
-    const wishlistKey = `wishlist_${user.email}`;
+
+    const wishlistKey =
+      `wishlist_${user.email}`;
+
 
     let wishlist =
-      JSON.parse(localStorage.getItem(wishlistKey)) || [];
+      JSON.parse(
+        localStorage.getItem(wishlistKey)
+      ) || [];
 
-    const exists =
-      wishlist.find(item => item.id === product.id);
+
+    const exists = wishlist.find(
+      item => item.id === product.id
+    );
+
 
     if (exists) {
 
@@ -122,23 +139,28 @@ const addToWishlist = (product) => {
 
     }
 
+
     wishlist.push(product);
 
+
     localStorage.setItem(
-
       wishlistKey,
-
       JSON.stringify(wishlist)
-
     );
+
 
     alert("Added To Wishlist ❤️");
 
   };
 
-const buyNow = (product) => {
 
-    const user = JSON.parse(localStorage.getItem("user"));
+  // Buy Now
+  const buyNow = (product) => {
+
+    const user = JSON.parse(
+      localStorage.getItem("user")
+    );
+
 
     if (!user) {
 
@@ -147,61 +169,72 @@ const buyNow = (product) => {
       navigate("/login");
 
       return;
-
     }
 
+
     localStorage.setItem(
-
       "buyProduct",
-
       JSON.stringify(product)
-
     );
+
 
     navigate("/checkout");
 
   };
-   return (
+
+
+  return (
 
     <>
 
-     <div className="products-page">
+      <div className="products-page">
 
         <h1>🧒 Kids Collection</h1>
 
+
         <div className="products-container">
 
-          {
+          {/* Product Grid */}
+          <div className="product-grid">
 
-            products.length === 0 ?
+            {
 
-              <h2>No Kids Products Found</h2>
+              products.length === 0
 
-              :
+                ?
 
-              products.map(product => (
+                <h2>
+                  No Kids Products Found
+                </h2>
 
-                <ProductCard
+                :
 
-                  key={product.id}
+                products.map((product) => (
 
-                  product={product}
+                  <ProductCard
 
-                  onAddToCart={addToCart}
+                    key={product.id}
 
-                  onAddToWishlist={addToWishlist}
+                    product={product}
 
-                  onBuyNow={buyNow}
+                    onAddToCart={addToCart}
 
-                />
+                    onAddToWishlist={addToWishlist}
 
-              ))
+                    onBuyNow={buyNow}
 
-          }
+                  />
+
+                ))
+
+            }
+
+          </div>
 
         </div>
 
       </div>
+
 
       <Footer />
 
@@ -210,4 +243,6 @@ const buyNow = (product) => {
   );
 
 }
+
+
 export default Kids;

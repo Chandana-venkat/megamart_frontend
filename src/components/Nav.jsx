@@ -40,7 +40,7 @@ function Nav({ search = "", setSearch }) {
     <nav className="navbar">
 
 
-      {/* Logo */}
+     
 
       <div className="logo">
 
@@ -54,7 +54,7 @@ function Nav({ search = "", setSearch }) {
 
 
 
-      {/* Search */}
+   
 
       <div className="search-box">
 
@@ -75,7 +75,7 @@ function Nav({ search = "", setSearch }) {
 
 
 
-      {/* Navigation Links */}
+      
 
       <ul className="nav-links">
         <li>
@@ -162,7 +162,7 @@ function Nav({ search = "", setSearch }) {
 
 
 
-        {/* Login / User Name */}
+        
 
         {!currentUser ? (
 
@@ -189,7 +189,7 @@ function Nav({ search = "", setSearch }) {
 
 
 
-        {/* Always Register */}
+        
 
         <li>
 
@@ -202,12 +202,7 @@ function Nav({ search = "", setSearch }) {
         </li>
 
 
-
-
-
-        {/* Logout */}
-
-        {currentUser && (
+   {currentUser && (
 
           <li>
 

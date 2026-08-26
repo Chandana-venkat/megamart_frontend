@@ -7,7 +7,7 @@ function Footer(){
 
             <div className="footer-container">
 
-                {/* Customer Support */}
+                
                 <div className="footer-section">
                     <h3>Customer Support</h3>
                     <p>Contact Us</p>
@@ -17,7 +17,7 @@ function Footer(){
                 </div>
 
 
-                {/* Policies */}
+                
                 <div className="footer-section">
                     <h3>Policies</h3>
                     <p>Privacy Policy</p>
@@ -27,7 +27,7 @@ function Footer(){
                 </div>
 
 
-                {/* Company */}
+                
                 <div className="footer-section">
                     <h3>Company</h3>
                     <p>About Us</p>
@@ -37,7 +37,7 @@ function Footer(){
                 </div>
 
 
-                {/* Social Links */}
+               
                 <div className="footer-section">
                     <h3>Social Links</h3>
                     <p>Instagram</p>
@@ -47,7 +47,7 @@ function Footer(){
                 </div>
 
 
-                {/* Newsletter */}
+        
                 <div className="footer-section newsletter">
 
                     <h3>Newsletter</h3>

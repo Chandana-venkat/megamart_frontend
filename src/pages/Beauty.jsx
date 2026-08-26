@@ -15,7 +15,8 @@ function Beauty() {
 
   useEffect(() => {
 
-    API.get("/products?category=Beauty")
+    // API.get("/products?category=Beauty")
+    API.get("/products/category/Beauty")
       .then((res) => {
         setProducts(res.data);
       })
@@ -74,9 +75,7 @@ function Beauty() {
 
   };
 
-  // Add To Wishlist
-
-  const addToWishlist = (product) => {
+ const addToWishlist = (product) => {
 
     const user = JSON.parse(localStorage.getItem("user"));
 
@@ -117,7 +116,7 @@ function Beauty() {
 
   };
 
-  // Buy Now
+ 
 
   const buyNow = (product) => {
 
@@ -167,37 +166,37 @@ function Beauty() {
         <h1>💄 Beauty Products</h1>
 
         <div className="products-container">
-          
-    <div className="product-grid">
 
-          {
+          <div className="product-grid">
 
-            products.length === 0 ?
+            {
 
-              <h2>No Beauty Products Found</h2>
+              products.length === 0 ?
 
-              :
+                <h2>No Beauty Products Found</h2>
 
-              products.map((product) => (
+                :
 
-                <ProductCard
+                products.map((product) => (
 
-                  key={product.id}
+                  <ProductCard
 
-                  product={product}
+                    key={product.id}
 
-                  onAddToCart={addToCart}
+                    product={product}
 
-                  onAddToWishlist={addToWishlist}
+                    onAddToCart={addToCart}
 
-                  onBuyNow={buyNow}
+                    onAddToWishlist={addToWishlist}
 
-                />
+                    onBuyNow={buyNow}
 
-              ))
+                  />
 
-          }
-         </div>
+                ))
+
+            }
+          </div>
         </div>
 
       </div>
@@ -209,5 +208,4 @@ function Beauty() {
   );
 
 }
-
 export default Beauty;

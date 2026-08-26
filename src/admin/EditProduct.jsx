@@ -125,261 +125,262 @@ function EditProduct() {
     };
     const updateProduct = async (e) => {
 
-    e.preventDefault();
+        e.preventDefault();
 
-    let newErrors = {
+        let newErrors = {
 
-        name: "",
-        brand: "",
-        category: "",
-        price: "",
-        image: "",
-        description: "",
-        rating: "",
-        reviews: "",
-        purchased: ""
+            name: "",
+            brand: "",
+            category: "",
+            price: "",
+            image: "",
+            description: "",
+            rating: "",
+            reviews: "",
+            purchased: ""
+
+        };
+
+        if (product.name.trim().length < 3) {
+            newErrors.name = "Minimum 3 characters required";
+        }
+
+        if (product.brand.trim().length < 2) {
+            newErrors.brand = "Minimum 2 characters required";
+        }
+
+        if (product.category === "") {
+            newErrors.category = "Please Select Category";
+        }
+
+        if (product.price === "" || Number(product.price) <= 0) {
+            newErrors.price = "Price must be greater than 0";
+        }
+
+        if (product.image.trim() === "") {
+            newErrors.image = "Image URL is required";
+        } else {
+            try {
+                new URL(product.image);
+            } catch {
+                newErrors.image = "Invalid Image URL";
+            }
+        }
+
+        if (product.description.trim().length < 10) {
+            newErrors.description = "Minimum 10 characters required";
+        }
+
+        if (
+            product.rating === "" ||
+            Number(product.rating) < 1 ||
+            Number(product.rating) > 5
+        ) {
+            newErrors.rating = "Rating must be between 1 and 5";
+        }
+
+        if (
+            product.reviews === "" ||
+            Number(product.reviews) < 0
+        ) {
+            newErrors.reviews = "Reviews cannot be negative";
+        }
+
+        if (product.purchased.trim() === "") {
+            newErrors.purchased = "Purchased text is required";
+        }
+
+        setErrors(newErrors);
+
+        if (
+            Object.values(newErrors).some(error => error !== "")
+        ) {
+            return;
+        }
+
+        try {
+
+            await API.put(`/products/${id}`, product);
+
+            alert("✅ Product Updated Successfully");
+
+            navigate("/admin/products");   // Change to "/admin/view-products" if that is your route
+
+        } catch (err) {
+
+            console.log(err);
+
+            alert("❌ Update Failed");
+
+        }
 
     };
+    return (
 
-    if (product.name.trim().length < 3) {
-        newErrors.name = "Minimum 3 characters required";
-    }
+        <div className="admin-page">
 
-    if (product.brand.trim().length < 2) {
-        newErrors.brand = "Minimum 2 characters required";
-    }
+            <div className="admin-form">
 
-    if (product.category === "") {
-        newErrors.category = "Please Select Category";
-    }
+                <h1>✏ Edit Product</h1>
 
-    if (product.price === "" || Number(product.price) <= 0) {
-        newErrors.price = "Price must be greater than 0";
-    }
+                <form onSubmit={updateProduct}>
 
-    if (product.image.trim() === "") {
-        newErrors.image = "Image URL is required";
-    } else {
-        try {
-            new URL(product.image);
-        } catch {
-            newErrors.image = "Invalid Image URL";
-        }
-    }
+                   
 
-    if (product.description.trim().length < 10) {
-        newErrors.description = "Minimum 10 characters required";
-    }
+                    <input
+                        type="text"
+                        name="name"
+                        placeholder="Product Name"
+                        value={product.name}
+                        onChange={handleChange}
+                    />
 
-    if (
-        product.rating === "" ||
-        Number(product.rating) < 1 ||
-        Number(product.rating) > 5
-    ) {
-        newErrors.rating = "Rating must be between 1 and 5";
-    }
+                    {errors.name && (
+                        <p className="error">{errors.name}</p>
+                    )}
 
-    if (
-        product.reviews === "" ||
-        Number(product.reviews) < 0
-    ) {
-        newErrors.reviews = "Reviews cannot be negative";
-    }
+                   
 
-    if (product.purchased.trim() === "") {
-        newErrors.purchased = "Purchased text is required";
-    }
+                    <input
+                        type="text"
+                        name="brand"
+                        placeholder="Brand"
+                        value={product.brand}
+                        onChange={handleChange}
+                    />
 
-    setErrors(newErrors);
+                    {errors.brand && (
+                        <p className="error">{errors.brand}</p>
+                    )}
 
-    if (
-        Object.values(newErrors).some(error => error !== "")
-    ) {
-        return;
-    }
+                 
 
-    try {
+                    <select
+                        name="category"
+                        value={product.category}
+                        onChange={handleChange}
+                    >
+                        <option value="">Select Category</option>
+                        <option value="Men">Men</option>
+                        <option value="Women">Women</option>
+                        <option value="Kids">Kids</option>
+                        <option value="Beauty">Beauty</option>
+                        <option value="GenZ">GenZ</option>
+                        <option value="Home Living">Home Living</option>
+                        <option value="Home">Home</option>
+                    </select>
 
-        await API.put(`/products/${id}`, product);
+                    {errors.category && (
+                        <p className="error">{errors.category}</p>
+                    )}
 
-        alert("✅ Product Updated Successfully");
+                    
 
-        navigate("/admin/products");   // Change to "/admin/view-products" if that is your route
+                    <input
+                        type="number"
+                        name="price"
+                        placeholder="Price"
+                        value={product.price}
+                        onChange={handleChange}
+                    />
 
-    } catch (err) {
+                    {errors.price && (
+                        <p className="error">{errors.price}</p>
+                    )}
 
-        console.log(err);
+                    
 
-        alert("❌ Update Failed");
+                    <input
+                        type="text"
+                        name="image"
+                        placeholder="Image URL"
+                        value={product.image}
+                        onChange={handleChange}
+                    />
 
-    }
+                    {errors.image && (
+                        <p className="error">{errors.image}</p>
+                    )}
 
-};
-return (
+                    {
+                        product.image &&
+                        !errors.image && (
+                            <img
+                                src={product.image}
+                                alt="Preview"
+                                className="preview-image"
+                            />
+                        )
+                    }
 
-    <div className="admin-page">
+                   
 
-        <div className="admin-form">
+                    <textarea
+                        rows="4"
+                        name="description"
+                        placeholder="Description"
+                        value={product.description}
+                        onChange={handleChange}
+                    />
 
-            <h1>✏ Edit Product</h1>
+                    {errors.description && (
+                        <p className="error">{errors.description}</p>
+                    )}
 
-            <form onSubmit={updateProduct}>
+                  
 
-                {/* Product Name */}
+                    <input
+                        type="number"
+                        step="0.1"
+                        name="rating"
+                        placeholder="Rating"
+                        value={product.rating}
+                        onChange={handleChange}
+                    />
 
-                <input
-                    type="text"
-                    name="name"
-                    placeholder="Product Name"
-                    value={product.name}
-                    onChange={handleChange}
-                />
+                    {errors.rating && (
+                        <p className="error">{errors.rating}</p>
+                    )}
 
-                {errors.name && (
-                    <p className="error">{errors.name}</p>
-                )}
+                   
 
-                {/* Brand */}
+                    <input
+                        type="number"
+                        name="reviews"
+                        placeholder="Reviews"
+                        value={product.reviews}
+                        onChange={handleChange}
+                    />
 
-                <input
-                    type="text"
-                    name="brand"
-                    placeholder="Brand"
-                    value={product.brand}
-                    onChange={handleChange}
-                />
+                    {errors.reviews && (
+                        <p className="error">{errors.reviews}</p>
+                    )}
 
-                {errors.brand && (
-                    <p className="error">{errors.brand}</p>
-                )}
+                   
 
-                {/* Category */}
+                    <input
+                        type="text"
+                        name="purchased"
+                        placeholder="Purchased Text"
+                        value={product.purchased}
+                        onChange={handleChange}
+                    />
 
-                <select
-                    name="category"
-                    value={product.category}
-                    onChange={handleChange}
-                >
-                    <option value="">Select Category</option>
-                    <option value="Men">Men</option>
-                    <option value="Women">Women</option>
-                    <option value="Kids">Kids</option>
-                    <option value="Beauty">Beauty</option>
-                    <option value="GenZ">GenZ</option>
-                    <option value="Home Living">Home Living</option>
-                </select>
+                    {errors.purchased && (
+                        <p className="error">{errors.purchased}</p>
+                    )}
 
-                {errors.category && (
-                    <p className="error">{errors.category}</p>
-                )}
+                    <button type="submit">
+                        💾 Update Product
+                    </button>
 
-                {/* Price */}
+                </form>
 
-                <input
-                    type="number"
-                    name="price"
-                    placeholder="Price"
-                    value={product.price}
-                    onChange={handleChange}
-                />
-
-                {errors.price && (
-                    <p className="error">{errors.price}</p>
-                )}
-
-                {/* Image */}
-
-                <input
-                    type="text"
-                    name="image"
-                    placeholder="Image URL"
-                    value={product.image}
-                    onChange={handleChange}
-                />
-
-                {errors.image && (
-                    <p className="error">{errors.image}</p>
-                )}
-
-                {
-                    product.image &&
-                    !errors.image && (
-                        <img
-                            src={product.image}
-                            alt="Preview"
-                            className="preview-image"
-                        />
-                    )
-                }
-
-                {/* Description */}
-
-                <textarea
-                    rows="4"
-                    name="description"
-                    placeholder="Description"
-                    value={product.description}
-                    onChange={handleChange}
-                />
-
-                {errors.description && (
-                    <p className="error">{errors.description}</p>
-                )}
-
-                {/* Rating */}
-
-                <input
-                    type="number"
-                    step="0.1"
-                    name="rating"
-                    placeholder="Rating"
-                    value={product.rating}
-                    onChange={handleChange}
-                />
-
-                {errors.rating && (
-                    <p className="error">{errors.rating}</p>
-                )}
-
-                {/* Reviews */}
-
-                <input
-                    type="number"
-                    name="reviews"
-                    placeholder="Reviews"
-                    value={product.reviews}
-                    onChange={handleChange}
-                />
-
-                {errors.reviews && (
-                    <p className="error">{errors.reviews}</p>
-                )}
-
-                {/* Purchased */}
-
-                <input
-                    type="text"
-                    name="purchased"
-                    placeholder="Purchased Text"
-                    value={product.purchased}
-                    onChange={handleChange}
-                />
-
-                {errors.purchased && (
-                    <p className="error">{errors.purchased}</p>
-                )}
-
-                <button type="submit">
-                    💾 Update Product
-                </button>
-
-            </form>
+            </div>
 
         </div>
 
-    </div>
-
-);
+    );
 
 }
 

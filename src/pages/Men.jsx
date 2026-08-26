@@ -19,15 +19,16 @@ function Men() {
 
   useEffect(() => {
 
-      API.get("/products?category=Men")
+    // API.get("/products?category=Men")
+    API.get("/products/category/Men")
 
-        .then((res) => {
+      .then((res) => {
 
-          setProducts(res.data);
+        setProducts(res.data);
 
-        })
+      })
 
-        .catch((err) => console.log(err));
+      .catch((err) => console.log(err));
 
   }, []);
 
@@ -68,14 +69,14 @@ function Men() {
 
       exists.quantity += 1;
 
-    } 
+    }
     else {
 
       cart.push({
 
         ...product,
 
-        quantity:1
+        quantity: 1
 
       });
 
@@ -248,48 +249,48 @@ function Men() {
 
 
 
-          {
+            {
 
-            products.length === 0 ?
-
-
-              <h2>No Men's Products Found</h2>
+              products.length === 0 ?
 
 
-
-              :
+                <h2>No Men's Products Found</h2>
 
 
 
-              products.map(product => (
+                :
 
 
 
-                <ProductCard
-
-
-                  key={product.id}
-
-
-                  product={product}
-
-
-                  onAddToCart={addToCart}
-
-
-                  onAddToWishlist={addToWishlist}
-
-
-                  onBuyNow={buyNow}
+                products.map(product => (
 
 
 
-                />
+                  <ProductCard
 
 
-              ))
+                    key={product.id}
 
-          }
+
+                    product={product}
+
+
+                    onAddToCart={addToCart}
+
+
+                    onAddToWishlist={addToWishlist}
+
+
+                    onBuyNow={buyNow}
+
+
+
+                  />
+
+
+                ))
+
+            }
 
 
 

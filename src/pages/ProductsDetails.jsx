@@ -10,217 +10,369 @@ import API from "../services/api";
 function ProductDetails() {
 
   const { id } = useParams();
+
   const navigate = useNavigate();
 
-  const user = JSON.parse(localStorage.getItem("currentUser"));
-
   const [product, setProduct] = useState(null);
+
 
   useEffect(() => {
 
     API.get(`/products/${id}`)
       .then((res) => {
+
         setProduct(res.data);
+
       })
       .catch((err) => {
-        console.log(err);
+
+        console.log("Product Error:", err);
+
       });
 
   }, [id]);
 
-  // ADD TO CART
+
+  const checkLogin = () => {
+
+    const user = JSON.parse(
+      localStorage.getItem("currentUser")
+    );
+
+    if (!user || !user.email) {
+
+      alert("Please Login First");
+
+      navigate("/login");
+
+      return false;
+    }
+
+    return true;
+  };
+
+
   const addToCart = async () => {
 
-    if (!user) {
-      alert("Please Login First");
-      navigate("/login");
-      return;
-    }
+    if (!checkLogin()) return;
+
+    const user = JSON.parse(
+      localStorage.getItem("currentUser")
+    );
 
     try {
 
       const existing = await API.get(
-        `/cart?userEmail=${user.email}&productId=${product.id}`
+        `/cart?userEmail=${encodeURIComponent(user.email)}`
       );
 
-      if (existing.data.length > 0) {
+      const alreadyExists = existing.data.some(
+        item =>
+          String(item.productId) ===
+          String(product.id)
+      );
+
+      if (alreadyExists) {
+
         alert("Already in Cart 🛒");
+
         return;
       }
 
       await API.post("/cart", {
+
         userEmail: user.email,
+
         productId: product.id,
+
         name: product.name,
+
         brand: product.brand,
+
         category: product.category,
+
         image: product.image,
+
         price: product.price,
+
         rating: product.rating,
+
         quantity: 1
+
       });
 
       alert("Added To Cart 🛒");
+
       navigate("/cart");
 
-    } catch (err) {
-      console.log(err);
+    }
+    catch (error) {
+
+      console.log("Cart Error:", error);
+
+      alert("Unable to add to cart");
+
     }
 
   };
 
-  // ADD TO WISHLIST
   const addToWishlist = async () => {
 
-    if (!user) {
-      alert("Please Login First");
-      navigate("/login");
-      return;
-    }
+    if (!checkLogin()) return;
+
+    const user = JSON.parse(
+      localStorage.getItem("currentUser")
+    );
 
     try {
 
       const existing = await API.get(
-        `/wishlist?userEmail=${user.email}&productId=${product.id}`
+        `/wishlist?userEmail=${encodeURIComponent(user.email)}`
       );
 
-      if (existing.data.length > 0) {
+      const alreadyExists = existing.data.some(
+        item =>
+          String(item.productId) ===
+          String(product.id)
+      );
+
+      if (alreadyExists) {
+
         alert("Already in Wishlist ❤️");
+
         return;
       }
 
       await API.post("/wishlist", {
+
         userEmail: user.email,
+
         productId: product.id,
+
         name: product.name,
+
         brand: product.brand,
+
         category: product.category,
+
         image: product.image,
+
         price: product.price,
+
         rating: product.rating,
+
         quantity: 1
+
       });
 
       alert("Added To Wishlist ❤️");
 
-    } catch (err) {
-      console.log(err);
+    }
+    catch (error) {
+
+      console.log("Wishlist Error:", error);
+
+      alert("Unable to add to wishlist");
+
     }
 
   };
 
-  // BUY NOW
   const buyNow = async () => {
 
-    if (!user) {
-      alert("Please Login First");
-      navigate("/login");
-      return;
-    }
+    if (!checkLogin()) return;
+
+    const user = JSON.parse(
+      localStorage.getItem("currentUser")
+    );
 
     try {
 
-      // Clear old cart
-      const cart = await API.get(`/cart?userEmail=${user.email}`);
+      // Get existing cart
+      const response = await API.get(
+        `/cart?userEmail=${encodeURIComponent(user.email)}`
+      );
 
-      for (const item of cart.data) {
-        await API.delete(`/cart/${item.id}`);
+      // Clear old cart
+      for (const item of response.data) {
+
+        await API.delete(
+          `/cart/${item.id}`
+        );
+
       }
 
       // Add selected product
       await API.post("/cart", {
+
         userEmail: user.email,
+
         productId: product.id,
+
         name: product.name,
+
         brand: product.brand,
+
         category: product.category,
+
         image: product.image,
+
         price: product.price,
+
         rating: product.rating,
+
         quantity: 1
+
       });
 
+      // Go to checkout
       navigate("/checkout");
 
-    } catch (err) {
-      console.log(err);
+    }
+    catch (error) {
+
+      console.log("Buy Now Error:", error);
+
+      alert("Unable to continue to checkout");
+
     }
 
   };
 
+
   if (!product) {
-    return <h2 className="loading">Loading...</h2>;
+
+    return (
+      <h2 className="loading">
+        Loading...
+      </h2>
+    );
+
   }
 
+
   return (
+
     <>
+
       <Nav />
 
       <div className="product-details">
 
         <div className="product-image">
+
           <img
             src={product.image}
             alt={product.name}
             className="details-image"
           />
+
         </div>
+
 
         <div className="product-info">
 
-          <h1>{product.name}</h1>
+          <h1>
+            {product.name}
+          </h1>
 
-          <h2>₹{product.price}</h2>
+          <h2>
+            ₹{product.price}
+          </h2>
+
 
           {product.oldPrice && (
+
             <p>
-              <del>₹{product.oldPrice}</del>
+              <del>
+                ₹{product.oldPrice}
+              </del>
             </p>
+
           )}
+
 
           {product.discount && (
-            <p>🔥 {product.discount}</p>
+
+            <p>
+              🔥 {product.discount}
+            </p>
+
           )}
 
-          <p>
-            <strong>Category:</strong> {product.category}
-          </p>
 
           <p>
-            ⭐ {product.rating} ({product.reviews} reviews)
+            <strong>
+              Category:
+            </strong>{" "}
+            {product.category}
           </p>
+
+
+          <p>
+            ⭐ {product.rating} (
+            {product.reviews} reviews)
+          </p>
+
 
           <p className="description">
             {product.description}
           </p>
 
-          <p>
-            <strong>Color:</strong> {product.color || "Available"}
-          </p>
 
           <p>
-            <strong>Size:</strong> {product.size || "Free Size"}
+            <strong>
+              Color:
+            </strong>{" "}
+            {product.color || "Available"}
           </p>
 
-          <p>
-            <strong>Delivery:</strong> {product.delivery || "Free Delivery"}
-          </p>
 
           <p>
-            <strong>Warranty:</strong> {product.warranty || "No Warranty"}
+            <strong>
+              Size:
+            </strong>{" "}
+            {product.size || "Free Size"}
           </p>
+
+
+          <p>
+            <strong>
+              Delivery:
+            </strong>{" "}
+            {product.delivery ||
+              "Free Delivery"}
+          </p>
+
+
+          <p>
+            <strong>
+              Warranty:
+            </strong>{" "}
+            {product.warranty ||
+              "No Warranty"}
+          </p>
+
 
           <div className="buttons">
 
-            <button onClick={addToCart}>
+            <button
+              onClick={addToCart}
+            >
               🛒 Add Cart
             </button>
 
-            <button onClick={addToWishlist}>
+
+            <button
+              onClick={addToWishlist}
+            >
               ❤️ Wishlist
             </button>
 
-            <button onClick={buyNow}>
+
+            <button
+              onClick={buyNow}
+            >
               ⚡ Buy Now
             </button>
 
@@ -230,9 +382,13 @@ function ProductDetails() {
 
       </div>
 
+
       <Footer />
+
     </>
+
   );
+
 }
 
 export default ProductDetails;
