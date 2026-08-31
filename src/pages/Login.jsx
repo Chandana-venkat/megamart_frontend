@@ -1,3 +1,440 @@
+// import { useState } from "react";
+// import { useNavigate } from "react-router-dom";
+// import "../styles/Login.css";
+// import API from "../services/api";
+
+// function Login() {
+
+//   const navigate = useNavigate();
+
+//   const [data, setData] = useState({
+//     email: "",
+//     password: ""
+//   });
+
+//   const [errors, setErrors] = useState({});
+
+//   const handleChange = (e) => {
+
+//     const { name, value } = e.target;
+
+//     setData((prev) => ({
+//       ...prev,
+//       [name]: value
+//     }));
+
+//     let error = "";
+
+//     if (name === "email") {
+
+//       if (value.trim() === "") {
+//         error = "Email is required";
+//       }
+//       else if (
+//         !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)
+//       ) {
+//         error = "Enter valid email";
+//       }
+
+//     }
+
+//     if (name === "password") {
+
+//       if (value.trim() === "") {
+//         error = "Password is required";
+//       }
+//       else if (value.length < 6) {
+//         error = "Minimum 6 characters required";
+//       }
+
+//     }
+
+//     setErrors((prev) => ({
+//       ...prev,
+//       [name]: error
+//     }));
+
+//   };
+
+
+//   const handleLogin = async (e) => {
+
+//     e.preventDefault();
+
+//     const newErrors = {};
+
+//     if (data.email.trim() === "") {
+//       newErrors.email = "Email is required";
+//     }
+
+//     if (data.password.trim() === "") {
+//       newErrors.password = "Password is required";
+//     }
+
+//     setErrors(newErrors);
+
+//     if (Object.keys(newErrors).length > 0) {
+//       return;
+//     }
+
+//     try {
+
+//       // JWT Login
+//       const response = await API.post(
+//         `/auth/login?email=${encodeURIComponent(
+//           data.email.trim()
+//         )}&password=${encodeURIComponent(
+//           data.password.trim()
+//         )}`
+//       );
+
+//       // Backend returns JWT token
+//       const token = response.data;
+
+//       console.log("JWT Token:", token);
+
+//       // Save JWT token
+//       localStorage.setItem("token", token);
+
+//       // Save logged-in user information
+//       localStorage.setItem(
+//         "currentUser",
+//         JSON.stringify({
+//           email: data.email.trim()
+//         })
+//       );
+
+//       alert("Login Successful 🎉");
+
+//       navigate("/");
+
+//     }
+//     catch (error) {
+
+//       console.log("Login Error:", error);
+
+//       if (
+//         error.response &&
+//         error.response.status === 401
+//       ) {
+//         alert("Invalid Email Or Password");
+//       }
+//       else {
+//         alert("Server Error");
+//       }
+
+//     }
+
+//   };
+
+
+//   return (
+//     <div className="login-page">
+
+//       <div className="login-box">
+
+//         {/* LEFT - SHOPPING BAG */}
+//         <div className="bag-section">
+
+//           <div className="shopping-bag">
+//             🛍️
+//           </div>
+
+//         </div>
+
+
+//         {/* RIGHT - LOGIN FORM */}
+//         <div className="form-section">
+
+//           <h1>Login</h1>
+
+//           <form onSubmit={handleLogin}>
+
+//             <input
+//               type="email"
+//               name="email"
+//               placeholder="Enter Email"
+//               value={data.email}
+//               onChange={handleChange}
+//             />
+
+//             <p className="error">
+//               {errors.email}
+//             </p>
+
+
+//             <input
+//               type="password"
+//               name="password"
+//               placeholder="Enter Password"
+//               value={data.password}
+//               onChange={handleChange}
+//             />
+
+//             <p className="error">
+//               {errors.password}
+//             </p>
+
+
+//             <div className="forgot-password-link">
+
+//               <button
+//                 type="button"
+//                 onClick={() => navigate("/forgot-password")}
+//               >
+//                 Forgot Password?
+//               </button>
+
+//             </div>
+
+
+//             <button type="submit">
+//               Login
+//             </button>
+
+//           </form>
+
+//         </div>
+
+//       </div>
+
+//     </div>
+//   );
+// }
+
+// export default Login;
+
+
+// import { useState } from "react";
+// import { useNavigate } from "react-router-dom";
+// import "../styles/Login.css";
+// import API from "../services/api";
+
+// function Login() {
+
+//     const navigate = useNavigate();
+
+//     const [data, setData] = useState({
+//         email: "",
+//         password: ""
+//     });
+
+//     const [errors, setErrors] = useState({});
+
+//     const handleChange = (e) => {
+
+//         const { name, value } = e.target;
+
+//         setData((prev) => ({
+//             ...prev,
+//             [name]: value
+//         }));
+
+//         let error = "";
+
+//         if (name === "email") {
+
+//             if (value.trim() === "") {
+//                 error = "Email is required";
+//             } else if (
+//                 !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)
+//             ) {
+//                 error = "Enter valid email";
+//             }
+
+//         }
+
+//         if (name === "password") {
+
+//             if (value.trim() === "") {
+//                 error = "Password is required";
+//             } else if (value.length < 6) {
+//                 error = "Minimum 6 characters required";
+//             }
+
+//         }
+
+//         setErrors((prev) => ({
+//             ...prev,
+//             [name]: error
+//         }));
+
+//     };
+
+//     const handleLogin = async (e) => {
+
+//         e.preventDefault();
+
+//         const newErrors = {};
+
+//         if (data.email.trim() === "") {
+
+//             newErrors.email = "Email is required";
+
+//         } else if (
+//             !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(
+//                 data.email.trim()
+//             )
+//         ) {
+
+//             newErrors.email = "Enter valid email";
+
+//         }
+
+//         if (data.password.trim() === "") {
+
+//             newErrors.password = "Password is required";
+
+//         } else if (data.password.length < 6) {
+
+//             newErrors.password =
+//                 "Minimum 6 characters required";
+
+//         }
+
+//         setErrors(newErrors);
+
+//         if (Object.keys(newErrors).length > 0) {
+//             return;
+//         }
+
+//         try {
+
+//             const response = await API.post(
+//                 `/ auth / login ? email = ${
+//   encodeURIComponent(
+//     data.email.trim()
+//   )
+// }& password=${
+//   encodeURIComponent(
+//     data.password
+//   )
+// } `
+//             );
+
+//             const token = response.data;
+
+//             console.log("JWT Token:", token);
+
+//             localStorage.setItem(
+//                 "token",
+//                 token
+//             );
+
+//             localStorage.setItem(
+//                 "currentUser",
+//                 JSON.stringify({
+//                     email: data.email.trim()
+//                 })
+//             );
+
+//             alert("Login Successful 🎉");
+
+//             navigate("/");
+
+//         } catch (error) {
+
+//             console.log(
+//                 "Login Error:",
+//                 error
+//             );
+
+//             if (
+//                 error.response &&
+//                 (
+//                     error.response.status === 401 ||
+//                     error.response.status === 403
+//                 )
+//             ) {
+
+//                 alert("Invalid Email Or Password");
+
+//             } else {
+
+//                 alert("Server Error");
+
+//             }
+
+//         }
+
+//     };
+
+//     return (
+
+//         <div className="login-page">
+
+//             <div className="login-box">
+
+//                 <div className="bag-section">
+
+//                     <div className="shopping-bag">
+//                         🛍️
+//                     </div>
+
+//                 </div>
+
+//                 <div className="form-section">
+
+//                     <h1>Login</h1>
+
+//                     <form onSubmit={handleLogin}>
+
+//                         <input
+//                             type="email"
+//                             name="email"
+//                             placeholder="Enter Email"
+//                             value={data.email}
+//                             onChange={handleChange}
+//                         />
+
+//                         <p className="error">
+//                             {errors.email}
+//                         </p>
+
+//                         <input
+//                             type="password"
+//                             name="password"
+//                             placeholder="Enter Password"
+//                             value={data.password}
+//                             onChange={handleChange}
+//                         />
+
+//                         <p className="error">
+//                             {errors.password}
+//                         </p>
+
+//                         <div className="forgot-password-link">
+
+//                             <button
+//                                 type="button"
+//                                 onClick={() =>
+//                                     navigate("/forgot-password")
+//                                 }
+//                             >
+//                                 Forgot Password?
+//                             </button>
+
+//                         </div>
+
+//                         <button type="submit">
+//                             Login
+//                         </button>
+
+//                     </form>
+
+//                 </div>
+
+//             </div>
+
+//         </div>
+
+//     );
+
+// }
+
+// export default Login;
+
+
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "../styles/Login.css";
@@ -5,191 +442,226 @@ import API from "../services/api";
 
 function Login() {
 
-  const navigate = useNavigate();
+    const navigate = useNavigate();
 
-  const [data, setData] = useState({
-    email: "",
-    password: ""
-  });
+    const [data, setData] = useState({
+        email: "",
+        password: ""
+    });
 
-  const [errors, setErrors] = useState({});
+    const [errors, setErrors] = useState({});
 
-  const handleChange = (e) => {
+    const handleChange = (e) => {
 
-    const { name, value } = e.target;
+        const { name, value } = e.target;
 
-    setData((prev) => ({
-      ...prev,
-      [name]: value
-    }));
+        setData((prev) => ({
+            ...prev,
+            [name]: value
+        }));
 
-    let error = "";
+        let error = "";
 
-    if (name === "email") {
+        if (name === "email") {
 
-      if (value.trim() === "") {
-        error = "Email is required";
-      }
-      else if (
-        !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)
-      ) {
-        error = "Enter valid email";
-      }
+            if (value.trim() === "") {
+                error = "Email is required";
+            } else if (
+                !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)
+            ) {
+                error = "Enter valid email";
+            }
 
-    }
+        }
 
-    if (name === "password") {
+        if (name === "password") {
 
-      if (value.trim() === "") {
-        error = "Password is required";
-      }
-      else if (value.length < 6) {
-        error = "Minimum 6 characters required";
-      }
+            if (value.trim() === "") {
+                error = "Password is required";
+            } else if (value.length < 6) {
+                error = "Minimum 6 characters required";
+            }
 
-    }
+        }
 
-    setErrors((prev) => ({
-      ...prev,
-      [name]: error
-    }));
+        setErrors((prev) => ({
+            ...prev,
+            [name]: error
+        }));
 
-  };
+    };
 
+    const handleLogin = async (e) => {
 
-  const handleLogin = async (e) => {
+        e.preventDefault();
 
-    e.preventDefault();
+        const newErrors = {};
 
-    const newErrors = {};
+        if (data.email.trim() === "") {
 
-    if (data.email.trim() === "") {
-      newErrors.email = "Email is required";
-    }
+            newErrors.email = "Email is required";
 
-    if (data.password.trim() === "") {
-      newErrors.password = "Password is required";
-    }
+        } else if (
+            !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(
+                data.email.trim()
+            )
+        ) {
 
-    setErrors(newErrors);
+            newErrors.email = "Enter valid email";
 
-    if (Object.keys(newErrors).length > 0) {
-      return;
-    }
+        }
 
-    try {
+        if (data.password.trim() === "") {
 
-      const response = await API.post(
-        `/users/login?email=${encodeURIComponent(
-          data.email.trim()
-        )}&password=${encodeURIComponent(
-          data.password.trim()
-        )}`
-      );
+            newErrors.password = "Password is required";
 
-      const loggedUser = response.data;
+        } else if (data.password.length < 6) {
 
-      console.log("Logged User:", loggedUser);
+            newErrors.password =
+                "Minimum 6 characters required";
 
-      localStorage.setItem(
-        "currentUser",
-        JSON.stringify(loggedUser)
-      );
+        }
 
-      alert("Login Successful 🎉");
+        setErrors(newErrors);
 
-      navigate("/");
+        if (Object.keys(newErrors).length > 0) {
+            return;
+        }
 
-    }
-    catch (error) {
+        try {
 
-      console.log("Login Error:", error);
+            const response = await API.post(
+                "/auth/login",
+                null,
+                {
+                    params: {
+                        email: data.email.trim(),
+                        password: data.password
+                    }
+                }
+            );
 
-      if (
-        error.response &&
-        error.response.status === 401
-      ) {
-        alert("Invalid Email Or Password");
-      }
-      else {
-        alert("Server Error");
-      }
+            const token = response.data;
 
-    }
+            console.log("JWT Token:", token);
 
-  };
+            localStorage.setItem(
+                "token",
+                token
+            );
 
+            localStorage.setItem(
+                "currentUser",
+                JSON.stringify({
+                    email: data.email.trim()
+                })
+            );
 
-  return (
-    <div className="login-page">
+            alert("Login Successful 🎉");
 
-      <div className="login-box">
+            navigate("/");
 
-        {/* LEFT - SHOPPING BAG */}
-        <div className="bag-section">
+        } catch (error) {
 
-          <div className="shopping-bag">
-            🛍️
-          </div>
+            console.log(
+                "Login Error:",
+                error
+            );
 
-        </div>
+            if (
+                error.response &&
+                (
+                    error.response.status === 401 ||
+                    error.response.status === 403
+                )
+            ) {
 
+                alert("Invalid Email Or Password");
 
-        {/* RIGHT - LOGIN FORM */}
-        <div className="form-section">
+            } else {
 
-          <h1>Login</h1>
+                alert("Server Error");
 
-          <form onSubmit={handleLogin}>
+            }
 
-            <input
-              type="email"
-              name="email"
-              placeholder="Enter Email"
-              value={data.email}
-              onChange={handleChange}
-            />
+        }
 
-            <p className="error">
-              {errors.email}
-            </p>
+    };
 
+    return (
 
-            <input
-              type="password"
-              name="password"
-              placeholder="Enter Password"
-              value={data.password}
-              onChange={handleChange}
-            />
+        <div className="login-page">
 
-            <p className="error">
-              {errors.password}
-            </p>
+            <div className="login-box">
 
+                <div className="bag-section">
 
-            <div className="forgot-password-link">
-              <button
-                type="button"
-                onClick={() => navigate("/forgot-password")}
-              >
-                Forgot Password?
-              </button>
+                    <div className="shopping-bag">
+                        🛍️
+                    </div>
+
+                </div>
+
+                <div className="form-section">
+
+                    <h1>Login</h1>
+
+                    <form onSubmit={handleLogin}>
+
+                        <input
+                            type="email"
+                            name="email"
+                            placeholder="Enter Email"
+                            value={data.email}
+                            onChange={handleChange}
+                        />
+
+                        <p className="error">
+                            {errors.email}
+                        </p>
+
+                        <input
+                            type="password"
+                            name="password"
+                            placeholder="Enter Password"
+                            value={data.password}
+                            onChange={handleChange}
+                        />
+
+                        <p className="error">
+                            {errors.password}
+                        </p>
+
+                        <div className="forgot-password-link">
+
+                            <button
+                                type="button"
+                                onClick={() =>
+                                    navigate(
+                                        "/forgot-password"
+                                    )
+                                }
+                            >
+                                Forgot Password?
+                            </button>
+
+                        </div>
+
+                        <button type="submit">
+                            Login
+                        </button>
+
+                    </form>
+
+                </div>
+
             </div>
 
-
-            <button type="submit">
-              Login
-            </button>
-
-          </form>
-
         </div>
 
-      </div>
+    );
 
-    </div>
-  );
 }
 
 export default Login;
+

@@ -24,7 +24,7 @@ function Nav({ search = "", setSearch }) {
   const handleLogout = () => {
 
     localStorage.removeItem("currentUser");
-      localStorage.removeItem("token");
+    localStorage.removeItem("token");
 
     alert("Logged Out Successfully 👋");
 
@@ -40,7 +40,7 @@ function Nav({ search = "", setSearch }) {
     <nav className="navbar">
 
 
-     
+
 
       <div className="logo">
 
@@ -54,7 +54,7 @@ function Nav({ search = "", setSearch }) {
 
 
 
-   
+
 
       <div className="search-box">
 
@@ -75,7 +75,7 @@ function Nav({ search = "", setSearch }) {
 
 
 
-      
+
 
       <ul className="nav-links">
         <li>
@@ -162,7 +162,7 @@ function Nav({ search = "", setSearch }) {
 
 
 
-        
+
 
         {!currentUser ? (
 
@@ -177,10 +177,13 @@ function Nav({ search = "", setSearch }) {
 
           <li>
 
-            <span className="user-name">
+            {/* <span className="user-name">
 
               {currentUser.name}
 
+            </span> */}
+            <span className="user-name">
+              👤 {currentUser.name}
             </span>
 
           </li>
@@ -189,7 +192,7 @@ function Nav({ search = "", setSearch }) {
 
 
 
-        
+
 
         <li>
 
@@ -202,7 +205,7 @@ function Nav({ search = "", setSearch }) {
         </li>
 
 
-   {currentUser && (
+        {currentUser && (
 
           <li>
 

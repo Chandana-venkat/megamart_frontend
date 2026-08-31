@@ -9,7 +9,7 @@ function Orders() {
     const [loading, setLoading] = useState(true);
     const navigate = useNavigate();
 
-   
+
     const fetchOrders = async () => {
         try {
             const user = JSON.parse(
@@ -39,7 +39,7 @@ function Orders() {
         fetchOrders();
     }, []);
 
-    
+
     const trackOrder = async (order) => {
         const statusList = [
             "Order Confirmed",
@@ -194,7 +194,7 @@ function Orders() {
 
                             </div>
 
-                        
+
                             <div className="order-details">
 
                                 <div className="section">
@@ -221,7 +221,7 @@ function Orders() {
 
                                 </div>
 
-                                
+
                                 <div className="section">
 
                                     <h3>
@@ -236,7 +236,7 @@ function Orders() {
 
                             </div>
 
-                           
+
                             <div className="section product-section">
 
                                 <h3>
@@ -279,15 +279,15 @@ function Orders() {
 
                             </div>
 
-                          
+
                             <h2 className="total">
                                 💰 Total : ₹{order.total}
                             </h2>
 
-                            
+
                             <div className="order-actions">
 
-                               
+
                                 <button
                                     type="button"
                                     className="track-btn"
@@ -302,7 +302,7 @@ function Orders() {
                                     🚚 Track Order
                                 </button>
 
-                               
+
                                 <button
                                     type="button"
                                     className="cancel-btn"

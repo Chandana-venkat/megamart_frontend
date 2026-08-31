@@ -1,3 +1,4 @@
+
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Footer from "../components/Footer";
@@ -5,13 +6,10 @@ import "../styles/Wishlist.css";
 import API from "../services/api";
 
 function Wishlist() {
-
   const navigate = useNavigate();
-
   const [wishlist, setWishlist] = useState([]);
 
   useEffect(() => {
-
     const user = JSON.parse(localStorage.getItem("currentUser"));
 
     if (!user) {
@@ -19,226 +17,174 @@ function Wishlist() {
       return;
     }
 
-
-    API.get(`/wishlist?userEmail=${user.email}`)
-      .then((res) => {
-        setWishlist(res.data);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-
+    getWishlist();
   }, [navigate]);
 
-
-  const getWishlist = () => {
-
+  const getWishlist = async () => {
     const user = JSON.parse(localStorage.getItem("currentUser"));
 
-    API.get(`/wishlist?userEmail=${user.email}`)
-      .then((res) => {
-        setWishlist(res.data);
-      });
-
-  };
-  const increaseQty = async (id) => {
-
-    const product = wishlist.find(item => item.id === id);
-
-    try {
-
-      await API.patch(`/wishlist/${id}`, {
-        quantity: (product.quantity || 1) + 1
-      });
-
-      getWishlist();
-
-    } catch (err) {
-
-      console.log(err);
-
+    if (!user) {
+      navigate("/login");
+      return;
     }
 
-  };
-  const decreaseQty = async (id) => {
-
-    const product = wishlist.find(item => item.id === id);
-
-    if ((product.quantity || 1) <= 1) return;
-
     try {
+      const res = await API.get(
+        `/ wishlist ? userEmail = ${encodeURIComponent(user.email)} `
+      );
 
-      await API.patch(`/wishlist/${id}`, {
-        quantity: product.quantity - 1
-      });
-
-      getWishlist();
-
+      setWishlist(res.data || []);
     } catch (err) {
-
-      console.log(err);
-
+      console.log("Wishlist Error:", err);
     }
-
   };
 
   const removeFromWishlist = async (id) => {
-
     try {
+      await API.delete(`/ wishlist / ${id} `);
 
-      await API.delete(`/wishlist/${id}`);
-
-      alert("Product Removed");
+      alert("Product Removed ❌");
 
       getWishlist();
-
     } catch (err) {
-
-      console.log(err);
-
+      console.log("Remove Wishlist Error:", err);
     }
-
   };
 
   const addToCart = async (product) => {
-
     const user = JSON.parse(localStorage.getItem("currentUser"));
 
-    try {
+    if (!user) {
+      navigate("/login");
+      return;
+    }
 
-      const existing = await API.get(
-        `/cart?userEmail=${user.email}&productId=${product.productId}`
+    const productId = product.productId;
+
+    try {
+      const response = await API.get(
+        `/ cart ? userEmail = ${encodeURIComponent(user.email)} `
       );
 
-      if (existing.data.length > 0) {
+      const cartItem = response.data.find(
+        item => String(item.productId) === String(productId)
+      );
 
-        const item = existing.data[0];
-
-        await API.patch(`/cart/${item.id}`, {
-          quantity: item.quantity + (product.quantity || 1)
+      if (cartItem) {
+        await API.patch(`/ cart / ${cartItem.id} `, {
+          quantity:
+            (cartItem.quantity || 1) +
+            (product.quantity || 1)
         });
-
       } else {
-
         await API.post("/cart", {
-
-          productId: product.productId,
+          productId: productId,
           userEmail: user.email,
           name: product.name,
-          brand: product.brand,
+          brand: product.brand || "",
           image: product.image,
           price: product.price,
-          rating: product.rating,
+          rating: product.rating || 0,
           quantity: product.quantity || 1
-
         });
-
       }
 
       alert("Added To Cart 🛒");
 
       navigate("/cart");
-
     } catch (err) {
+      console.log("Add To Cart Error:", err);
+      console.log("Backend Error:", err.response?.data);
 
-      console.log(err);
+      alert("Unable to add product to cart");
+    }
+  };
 
+  const buyNow = (product) => {
+    const user = JSON.parse(localStorage.getItem("currentUser"));
+
+    if (!user) {
+      navigate("/login");
+      return;
     }
 
+    const buyProduct = {
+      productId: product.productId,
+      name: product.name,
+      brand: product.brand || "",
+      image: product.image,
+      price: product.price,
+      rating: product.rating || 0,
+      quantity: product.quantity || 1
+    };
+
+    localStorage.setItem(
+      "buyProduct",
+      JSON.stringify(buyProduct)
+    );
+
+    navigate("/checkout");
   };
 
   return (
-
     <>
-
       <div className="wishlist-container">
-
         <h1>❤️ My Wishlist</h1>
 
-        {
+        {wishlist.length === 0 ? (
+          <h2>No Wishlist Products</h2>
+        ) : (
+          <div className="wishlist-grid">
+            {wishlist.map(product => (
+              <div
+                className="wishlist-card"
+                key={product.id}
+              >
+                <img
+                  src={product.image}
+                  alt={product.name}
+                />
 
-          wishlist.length === 0 ?
+                <h3>{product.name}</h3>
 
-            <h2>No Wishlist Products</h2>
+                <p>₹{product.price}</p>
 
-            :
+                <h3>
+                  Total: ₹{product.price}
+                </h3>
 
-            <div className="wishlist-grid">
+                <button
+                  className="cart-btn"
+                  onClick={() => addToCart(product)}
+                >
+                  🛒 Add To Cart
+                </button>
 
-              {
+                <button
+                  className="buy-btn"
+                  onClick={() => buyNow(product)}
+                >
+                  ⚡ Buy Now
+                </button>
 
-                wishlist.map(product => (
-
-                  <div
-                    className="wishlist-card"
-                    key={product.id}
-                  >
-
-                    <img
-                      src={product.image}
-                      alt={product.name}
-                    />
-
-                    <h3>{product.name}</h3>
-
-                    <p>₹{product.price}</p>
-
-                    <div className="quantity">
-
-                      <button
-                        onClick={() => decreaseQty(product.id)}
-                      >
-                        -
-                      </button>
-
-                      <span>
-                        {product.quantity || 1}
-                      </span>
-
-                      <button
-                        onClick={() => increaseQty(product.id)}
-                      >
-                        +
-                      </button>
-
-                    </div>
-
-                    <h3>
-                      Total : ₹
-                      {product.price * (product.quantity || 1)}
-                    </h3>
-
-                    <button
-                      onClick={() => addToCart(product)}
-                    >
-                      🛒 Add Cart
-                    </button>
-
-                    <button
-                      className="remove-btn"
-                      onClick={() => removeFromWishlist(product.id)}
-                    >
-                      ❌ Remove
-                    </button>
-
-                  </div>
-
-                ))
-
-              }
-
-            </div>
-
-        }
-
+                <button
+                  className="remove-btn"
+                  onClick={() =>
+                    removeFromWishlist(product.id)
+                  }
+                >
+                  ❌ Remove
+                </button>
+              </div>
+            ))}
+          </div>
+        )}
       </div>
 
       <Footer />
-
     </>
-
   );
-
 }
 
 export default Wishlist;
+
