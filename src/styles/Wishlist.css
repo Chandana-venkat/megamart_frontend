@@ -5,8 +5,6 @@
     text-align: center;
 
 }
-
-
 .wishlist-container h1 {
 
     color: #e84393;
@@ -14,9 +12,6 @@
     margin-bottom: 30px;
 
 }
-
-
-
 .wishlist-grid {
 
     display: flex;
@@ -25,10 +20,6 @@
     justify-content: center;
 
 }
-
-
-
-/* Wishlist Card */
 
 .wishlist-card {
 
@@ -42,9 +33,6 @@
     transition: 0.3s;
 
 }
-
-
-
 .wishlist-card:hover {
 
     transform: translateY(-8px);
@@ -52,10 +40,6 @@
     box-shadow:0 10px 25px rgba(232,67,147,0.3);
 
 }
-
-
-
-/* Image */
 
 .wishlist-card img {
 
@@ -68,9 +52,6 @@
 }
 
 
-
-/* Name */
-
 .wishlist-card h3 {
 
     font-size: 18px;
@@ -79,10 +60,6 @@
     margin:15px 0;
 
 }
-
-
-
-/* Price */
 
 .wishlist-card p {
 
@@ -93,10 +70,6 @@
     color:#e17055;
 
 }
-
-
-
-/* Buttons */
 
 .wishlist-card button {
 
@@ -123,18 +96,12 @@
     );
 
 }
-
-
-
 .wishlist-card button:hover {
 
     transform:scale(1.05);
 
 }
 
-
-
-/* Remove Button */
 
 .wishlist-card .remove-btn {
 
@@ -146,19 +113,12 @@
 
 }
 
-
-
-/* Empty Wishlist */
-
 .wishlist-container h2 {
 
     color:#636e72;
 
 }
 
-
-
-/* Mobile */
 
 @media(max-width:600px){
 

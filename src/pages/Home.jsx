@@ -4,16 +4,11 @@ import Banner from "../components/Banner";
 import products from "../products";
 import { useNavigate } from "react-router-dom";
 import "../styles/Home.css";
-
-
 function Home() {
 
     const navigate = useNavigate();
-
-
-    const featuredProducts = products.slice(0, 4);
-
-    const newArrivals = products.slice(4, 8);
+   const featuredProducts = products.slice(0, 4);
+   const newArrivals = products.slice(4, 8);
 
 
     const addToCart = (product) => {
@@ -271,11 +266,6 @@ function Home() {
 
             </section>
 
-
-            {/* =================================
-                OFFER BANNER
-            ================================= */}
-
             <section className="offer-banner">
 
                 <h2>
@@ -298,11 +288,6 @@ function Home() {
                 </button>
 
             </section>
-
-
-            {/* =================================
-                TOP BRANDS
-            ================================= */}
 
             <section className="brand-section">
 
@@ -341,11 +326,6 @@ function Home() {
                 </div>
 
             </section>
-
-
-            {/* =================================
-                FEATURED PRODUCTS
-            ================================= */}
 
             <section className="product-section">
 

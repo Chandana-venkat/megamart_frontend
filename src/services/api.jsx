@@ -80,7 +80,9 @@ import axios from "axios";
 const API = axios.create({
     // baseURL: "http://localhost:8081"//Springboot ki
     // baseURL: "http://localhost:9090"//docker ki
-    baseURL: "https://kinda-rank-heather-size.trycloudflare.com"//vercel ki
+    // baseURL: "https://kinda-rank-heather-size.trycloudflare.com"//vercel ki
+
+    baseURL: "https://megamart-springboot-backend-1.onrender.com"
 });
 
 API.interceptors.request.use((config) => {

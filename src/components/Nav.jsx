@@ -19,9 +19,7 @@ function Nav({ search = "", setSearch }) {
     navigate("/products");
 
   };
-
-
-  const handleLogout = () => {
+const handleLogout = () => {
 
     localStorage.removeItem("currentUser");
     localStorage.removeItem("token");
@@ -33,16 +31,11 @@ function Nav({ search = "", setSearch }) {
     window.location.reload();
 
   };
-
-
-  return (
+return (
 
     <nav className="navbar">
 
-
-
-
-      <div className="logo">
+     <div className="logo">
 
         <Link to="/">
 
@@ -51,10 +44,6 @@ function Nav({ search = "", setSearch }) {
         </Link>
 
       </div>
-
-
-
-
 
       <div className="search-box">
 
@@ -72,12 +61,7 @@ function Nav({ search = "", setSearch }) {
 
       </div>
 
-
-
-
-
-
-      <ul className="nav-links">
+    <ul className="nav-links">
         <li>
           <Link to="/mens">
             Men's
@@ -159,20 +143,13 @@ function Nav({ search = "", setSearch }) {
             Admin
           </Link>
         </li>
-
-
-
-
-
-        {!currentUser ? (
+     {!currentUser ? (
 
           <li>
             <Link to="/login">
               Login
             </Link>
           </li>
-
-
         ) : (
 
           <li>
@@ -189,10 +166,6 @@ function Nav({ search = "", setSearch }) {
           </li>
 
         )}
-
-
-
-
 
         <li>
 
@@ -225,11 +198,7 @@ function Nav({ search = "", setSearch }) {
 
         )}
 
-
-
-      </ul>
-
-
+     </ul>
     </nav>
 
   );

@@ -24,9 +24,6 @@
     font-family: Arial, Helvetica, sans-serif;
 }
 
-
-/* MAIN WRAPPER */
-
 .admin-login-wrapper {
     width: 100%;
     max-width: 1050px;
@@ -199,10 +196,6 @@
 
     font-size: 12px;
 }
-
-
-
-
 .admin-login-card {
     padding: 55px 45px;
 
@@ -314,10 +307,6 @@
 .input-wrapper input::placeholder {
     color: #94a3b8;
 }
-
-
-
-
 .admin-login-button {
     width: 100%;
 
@@ -366,10 +355,6 @@
 
     transform: none;
 }
-
-
-
-
 .login-footer {
     text-align: center;
 
@@ -383,10 +368,6 @@
 
     font-size: 12px;
 }
-
-
-
-
 @media (max-width: 850px) {
 
     .admin-login-wrapper {
@@ -404,8 +385,6 @@
     }
 
 }
-
-
 @media (max-width: 500px) {
 
     .admin-login-page {

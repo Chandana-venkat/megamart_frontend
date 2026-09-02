@@ -14,7 +14,7 @@ function Kids() {
   const [products, setProducts] = useState([]);
 
 
-  // Get Kids Products
+
   useEffect(() => {
 
     // API.get("/products?category=Kids")
@@ -34,7 +34,7 @@ function Kids() {
   }, []);
 
 
-  // Add To Cart
+  
   const addToCart = (product) => {
 
     const user = JSON.parse(
@@ -98,7 +98,7 @@ function Kids() {
   };
 
 
-  // Add To Wishlist
+  
   const addToWishlist = (product) => {
 
     const user = JSON.parse(
@@ -154,7 +154,7 @@ function Kids() {
   };
 
 
-  // Buy Now
+  
   const buyNow = (product) => {
 
     const user = JSON.parse(
@@ -194,7 +194,7 @@ function Kids() {
 
         <div className="products-container">
 
-          {/* Product Grid */}
+          
           <div className="product-grid">
 
             {

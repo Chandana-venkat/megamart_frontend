@@ -4,22 +4,13 @@
     box-sizing: border-box;
     font-family: Arial, Helvetica, sans-serif;
 }
-
 body {
     background: #f8fafc;
 }
-
-
-
-
 .admin-dashboard {
     min-height: 100vh;
     background: #f8fafc;
 }
-
-
-
-
 .sidebar {
     position: fixed;
 
@@ -40,10 +31,6 @@ body {
 
     z-index: 100;
 }
-
-
-/* Brand */
-
 .sidebar-header {
     display: flex;
     align-items: center;
@@ -77,10 +64,6 @@ body {
 
     color: #94a3b8;
 }
-
-
-/* Menu */
-
 .menu-title {
     color: #64748b;
 
@@ -135,10 +118,6 @@ body {
 
     box-shadow: 0 7px 18px rgba(79, 70, 229, 0.25);
 }
-
-
-/* Bottom */
-
 .sidebar-bottom {
     margin-top: auto;
 }
@@ -219,10 +198,6 @@ body {
 
     min-height: 100vh;
 }
-
-
-
-
 .dashboard-header {
     display: flex;
 
@@ -446,10 +421,6 @@ body {
 .chart-container {
     height: 330px;
 }
-
-
-
-
 .quick-card button {
     width: 100%;
 
@@ -509,10 +480,6 @@ body {
 
     font-size: 20px;
 }
-
-
-
-
 .dashboard-footer {
     display: flex;
 
@@ -530,9 +497,6 @@ body {
 .dashboard-footer b {
     color: #10b981;
 }
-
-
-
 @media (max-width: 1100px) {
 
     .stats-grid {
@@ -543,10 +507,6 @@ body {
         grid-template-columns: 1fr;
     }
 }
-
-
-
-
 @media (max-width: 768px) {
 
     .sidebar {
@@ -595,8 +555,6 @@ body {
         gap: 8px;
     }
 }
-
-
 @media (max-width: 450px) {
 
     .sidebar-menu {
