@@ -33,18 +33,29 @@ function Women() {
 
   // }, []);
 
+  // useEffect(() => {
+
+  //   // API.get("/products?category=Women")
+
+  //   API.get("/products/category/Women")
+  //     .then((res) => {
+
+  //       setProducts(res.data);
+
+  //     })
+  //     .catch((err) => console.log(err));
+
+  // }, []);
+
   useEffect(() => {
-
-    // API.get("/products?category=Women")
-
     API.get("/products/category/Women")
       .then((res) => {
-
+        console.log("WOMEN PRODUCTS:", res.data);
         setProducts(res.data);
-
       })
-      .catch((err) => console.log(err));
-
+      .catch((err) => {
+        console.log("WOMEN ERROR:", err);
+      });
   }, []);
 
   const addToCart = (product) => {
