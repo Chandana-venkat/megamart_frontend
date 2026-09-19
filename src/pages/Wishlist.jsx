@@ -188,7 +188,7 @@
 
 // export default Wishlist;
 
-```jsx
+
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Footer from "../components/Footer";
@@ -220,7 +220,7 @@ function Wishlist() {
 
     try {
       const res = await API.get(
-        `/ wishlist ? userEmail = ${ encodeURIComponent(user.email) } `
+        `/ wishlist ? userEmail = ${encodeURIComponent(user.email)} `
       );
 
       setWishlist(res.data || []);
@@ -232,7 +232,7 @@ function Wishlist() {
 
   const removeFromWishlist = async (id) => {
     try {
-      await API.delete(`/ wishlist / ${ id } `);
+      await API.delete(`/ wishlist / ${id} `);
 
       alert("Product Removed ❌");
 
@@ -255,7 +255,7 @@ function Wishlist() {
 
     try {
       const response = await API.get(
-        `/ cart ? userEmail = ${ encodeURIComponent(user.email) } `
+        `/ cart ? userEmail = ${encodeURIComponent(user.email)} `
       );
 
       const cartItem = response.data.find(
@@ -263,7 +263,7 @@ function Wishlist() {
       );
 
       if (cartItem) {
-        await API.patch(`/ cart / ${ cartItem.id } `, {
+        await API.patch(`/ cart / ${cartItem.id} `, {
           quantity:
             (cartItem.quantity || 1) +
             (product.quantity || 1)
@@ -379,4 +379,3 @@ function Wishlist() {
 }
 
 export default Wishlist;
-```
