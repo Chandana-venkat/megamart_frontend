@@ -1,4 +1,4 @@
-git add src/pages/Wishlist.jsx
+
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Footer from "../components/Footer";
