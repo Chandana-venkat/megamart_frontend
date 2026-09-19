@@ -83,7 +83,8 @@ const API = axios.create({
     // baseURL: "https://kinda-rank-heather-size.trycloudflare.com"//vercel ki
 
     // baseURL: "https://megamart-springboot-backend-1.onrender.com"
-    baseURL: "https://megamart-springboot-backend-1.onrender.com"
+    // baseURL: "https://megamart-springboot-backend-1.onrender.com"
+    baseURL: "https://megamart-springboot-backend.onrender.com"
 });
 
 API.interceptors.request.use((config) => {
